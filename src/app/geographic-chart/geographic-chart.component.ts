@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import * as topojson from 'topojson';
 import { DataService } from '../data.service';
 import { StateInfo } from './../StateInfo';
+import { color } from 'd3';
 @Component({
   selector: 'app-geographic-chart',
   templateUrl: './geographic-chart.component.html',
@@ -13,51 +14,57 @@ export class GeographicChartComponent implements OnInit {
   geoJson: any;
   width = 960;
   height = 1160;
-  stateInfo:StateInfo[];
+  stateInfo: StateInfo[];
   path: any;
-  projection:any;
-  group:any;
+  projection: any;
+  group: any;
+  tooltip: any;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    var self=this;
-    this.dataService.getStateInfo().subscribe(data=>{
+    var self = this;
+    this.dataService.getStateInfo().subscribe(data => {
       console.log(data.statewise)
-     this.stateInfo=data.statewise as StateInfo[];
-     console.log( this.stateInfo[1].state);
+      self.stateInfo = data.statewise as StateInfo[];
+      self.projection = d3.geoMercator();
+      self.path = d3.geoPath()
+        .projection(self.projection)
+        .pointRadius(2);
+
+      var svg = d3.select("#content").append("svg")
+        .attr("width", self.width)
+        .attr("height", self.height);
+
+      self.group = svg.append("g");
+
+      this.tooltip = d3.select("#content")
+        .append("div")
+        .attr("class", "tooltip");
+
+
+
+      d3.json("../../assets/india copy.json").then(function (india) {
+
+        var boundary = self.centerZoom(india);
+        var subunits = self.drawSubUnits(india);
+        self.colorSubunits(subunits);
+        // self.drawSubUnitLabels(india);
+        self.drawOuterBoundary(india, boundary);
+
+      }).catch(err => {
+        console.log(err);
+      })
+
     })
 
-    this.projection = d3.geoMercator();
-    this.path = d3.geoPath()
-      .projection(this.projection)
-      .pointRadius(2);
-      
-    var svg = d3.select("#content").append("svg")
-      .attr("width", this.width)
-      .attr("height", this.height);
-
-    this.group= svg.append("g");
-
-
-    d3.json("../../assets/india copy.json").then(function (india) {
-
-      var boundary = self.centerZoom(india);
-      var subunits = self.drawSubUnits(india);
-      self.colorSubunits(subunits);
-      self.drawSubUnitLabels(india);
-      self.drawOuterBoundary(india, boundary);
-
-    }).catch(err => {
-      console.log(err);
-    })
 
   }
 
 
 
 
-   centerZoom(data) {
+  centerZoom(data) {
 
     var o = topojson.mesh(data, data.objects.polygons, function (a, b) { return a === b; });
 
@@ -76,44 +83,119 @@ export class GeographicChartComponent implements OnInit {
 
   }
 
-   drawSubUnits(data) {
+  drawSubUnits(data) {
 
     var subunits = this.group.selectAll(".subunit")
       .data((topojson.feature(data, data.objects.polygons) as any).features)
       .enter().append("path")
       .attr("class", "subunit")
-      .attr("d", this.path);
-    
-
+      .attr("d", this.path)
+      .on("mouseover", this.mouseOverEvent())
+      .on("mousemove", this.mouseMoveEvent())
+      .on("mouseout", this.mouseOutEvent());
     return subunits;
 
   }
 
-  
-   drawSubUnitLabels(data){
-    var self=this;
-    this.group.selectAll(".subunit-label")
-        .data((topojson.feature(data, data.objects.polygons) as any).features)
-      .enter().append("text")
-        .attr("class", "subunit-label")
-        .attr("transform", function(d:any) { return "translate(" + self.path.centroid(d) + ")"; })
-        .attr("dy", ".35em")
-        .attr("text-anchor", "middle")
-        .text(function(d:any) { return d.properties.st_nm; });
 
+  private mouseOverEvent(): any {
+    var self = this;
+    return function (d) {
+
+      d3.select(this)
+        .classed("active", true);
+
+    };
   }
 
-   colorSubunits(subunits) {
+  private mouseMoveEvent(): any {
+    var self = this;
+    return function (d) {
+      var stateInfo = self.stateInfo.filter(data => {
+        return data.state == d.properties.st_nm;
 
-    var c = d3.scaleOrdinal(d3.schemeCategory10);
+      }).map(stateInfo => {
+        console.log(stateInfo);
+        d3.select(this)
+          .classed("active", true);
+        self.tooltip.transition()
+          .duration(200).style("opacity", 1);
+        self.tooltip
+          .html(`<b>${d.properties.st_nm}</b>
+           <br> Confirmed: ${stateInfo.confirmed}
+           <br> Active: ${stateInfo.active}
+           <br> Recovered: ${stateInfo.recovered}
+           <br> Deaths: ${stateInfo.deaths} `)
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
+
+      })
+
+    };
+  }
+
+  private mouseOutEvent(): any {
+    var self = this;
+    return function (d) {
+
+      d3.select(this)
+        .classed("active", false);
+      self.tooltip.transition()
+        .duration(500);
+      self.tooltip.style("opacity", 0);
+
+
+    };
+  }
+
+
+  colorSubunits(subunits) {
+    var self = this;
+    // d3.scaleOrdinal( d3.schemeCategory10);
+
+    var c =
+      d3.scaleOrdinal(["green", "#a6acec", "#ace7ef", "#cefff1", "random","red"]);
     subunits
-        .style("fill", function(d,i){ return c(i); })
-        .style("opacity", ".6");
+      .style("fill", function (d, i) {
 
+        let color = getColor(d);
+        console.log(c(color));
+        return c(color);
+
+      })
+      .style("opacity", ".6");
+
+
+    function getColor(d) {
+      let color;
+      for (let i in self.stateInfo) {
+
+        let stateInfo = self.stateInfo[i];
+        if (stateInfo.state == d.properties.st_nm) {
+          let confirmedCases = parseInt(stateInfo.confirmed);
+          if (confirmedCases > 4000) {
+            color = "0";
+          } else if (confirmedCases < 4000 && confirmedCases > 2000) {
+            color = "1";
+          } else if (confirmedCases < 2000 && confirmedCases > 1000) {
+            color = "2";
+          } else if (confirmedCases < 1000 && confirmedCases > 500) {
+            color = "3";
+          } else {
+            color = "4";
+          }
+          console.log(`${stateInfo.state} color ${color}`)
+        }
+        
+
+      }
+      return color;
+
+    }
   }
 
 
-   drawOuterBoundary(data, boundary) {
+  drawOuterBoundary(data, boundary) {
 
     this.group.append("path")
       .datum(boundary)
@@ -123,4 +205,7 @@ export class GeographicChartComponent implements OnInit {
       .attr("stroke", "#3a403d");
 
   }
+
+
+
 }
