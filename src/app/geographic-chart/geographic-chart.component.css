@@ -1,12 +1,25 @@
-body {
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    /* font-size: 14px; */
-    color: #333;
+.parent {
+    height: 100%;
+}
+
+#content {
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
+    width: 70%;
+    height: 40em;
+    margin: 2em auto;
+}
+
+.flexbox {
+    display: flex;
+}
+
+::ng-deep svg {
+    margin: 1em 2em 1em 20em;
 }
 
 ::ng-deep.subunit {
     stroke: #fff;
-    stroke-width: 1px
+    stroke-width: 1px;
 }
 
 ::ng-deep.subunit.active {
@@ -30,4 +43,5 @@ body {
     background: #fff;
     border: 0px;
     pointer-events: none;
+    opacity: 0;
 }

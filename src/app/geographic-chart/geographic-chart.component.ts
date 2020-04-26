@@ -12,8 +12,8 @@ import { color } from 'd3';
 export class GeographicChartComponent implements OnInit {
 
   geoJson: any;
-  width = 960;
-  height = 1160;
+  width = 580;
+  height = 500;
   stateInfo: StateInfo[];
   path: any;
   projection: any;
@@ -32,7 +32,7 @@ export class GeographicChartComponent implements OnInit {
         .projection(self.projection)
         .pointRadius(2);
 
-      var svg = d3.select("#content").append("svg")
+      var svg = d3.select("svg")
         .attr("width", self.width)
         .attr("height", self.height);
 
@@ -73,11 +73,11 @@ export class GeographicChartComponent implements OnInit {
       .translate([0, 0]);
 
     var b = this.path.bounds(o);
-    var s = 1 / Math.max((b[1][0] - b[0][0]) / 960, (b[1][1] - b[0][1]) / 1160);
+    var s = 1 / Math.max((b[1][0] - b[0][0]) / this.width, (b[1][1] - b[0][1]) / this.height);
 
     var p = this.projection
       .scale(s)
-      .translate([(960 - s * (b[1][0] + b[0][0])) / 2, (1160 - s * (b[1][1] + b[0][1])) / 2]);
+      .translate([(this.width - s * (b[1][0] + b[0][0])) / 2, (this.height - s * (b[1][1] + b[0][1])) / 2]);
 
     return o;
 
@@ -154,16 +154,16 @@ export class GeographicChartComponent implements OnInit {
     // d3.scaleOrdinal( d3.schemeCategory10);
 
     var c =
-      d3.scaleOrdinal(["green", "#a6acec", "#ace7ef", "#cefff1", "random","red"]);
+     ["#091D83", "#0C2FE7","#5F76F0", "#99AAF8", "#BAC5F8"];
     subunits
       .style("fill", function (d, i) {
 
         let color = getColor(d);
-        console.log(c(color));
-        return c(color);
+        console.log(c[color]);
+        return c[color];
 
       })
-      .style("opacity", ".6");
+      .style("opacity", "1");
 
 
     function getColor(d) {
