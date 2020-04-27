@@ -1,15 +1,24 @@
-.parent {
+::ng-deep.parent {
     height: 100%;
 }
 
-#content {
+::ng-deep#content {
     box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
     width: 70%;
     height: 40em;
     margin: 2em auto;
 }
 
-.flexbox {
+::ng-deep table {
+    border-bottom: 2px solid #707070;
+    border-top: 2px solid #707070;
+}
+
+::ng-deep td {
+    border-bottom: 1px solid #ddd;
+}
+
+::ng-deep.flexbox {
     display: flex;
 }
 
@@ -44,4 +53,44 @@
     border: 0px;
     pointer-events: none;
     opacity: 0;
+}
+
+::ng-deep.colors {
+    display: flex;
+    justify-content: space-evenly;
+    width: 43%;
+    margin-left: 22em;
+}
+
+::ng-deep.colordim {
+    width: 3.6em;
+    height: 1.2em;
+}
+
+::ng-deep.colordata {
+    text-align: center;
+}
+
+::ng-deep.color1 {
+    background-color: #BAC5F8;
+}
+
+::ng-deep.color2 {
+    background-color: #99AAF8;
+}
+
+::ng-deep.color3 {
+    background-color: #5F76F0;
+}
+
+::ng-deep.color4 {
+    background-color: #0C2FE7;
+}
+
+::ng-deep.color5 {
+    background-color: #091D83;
+}
+
+::ng-deep span {
+    font-size: 0.45rem;
 }
