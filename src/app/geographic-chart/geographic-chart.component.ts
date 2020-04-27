@@ -122,10 +122,10 @@ export class GeographicChartComponent implements OnInit {
           .duration(200).style("opacity", 1);
         self.tooltip
           .html(`<b>${d.properties.st_nm}</b>
-           <br> Confirmed: ${stateInfo.confirmed}
-           <br> Active: ${stateInfo.active}
-           <br> Recovered: ${stateInfo.recovered}
-           <br> Deaths: ${stateInfo.deaths} `)
+           <br> <span class="confirmed"> Confirmed:</span> ${stateInfo.confirmed}
+           <br> <span class="active"> Active:</span>  ${stateInfo.active}
+           <br> <span class="recovered"> Recovered: </span> ${stateInfo.recovered}
+           <br><span class="death">  Deaths: </span> ${stateInfo.deaths} `)
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
 

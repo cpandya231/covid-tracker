@@ -2,20 +2,37 @@
     <div id="content">
         <h2>Covid-19 Daily Cases Tracker</h2>
         <div class="flexbox">
+            <div class="table-wrapper">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
 
-            <table>
-                <tr>
-                    <th>State</th>
-                    <th> Confirmed Cases</th>
-                </tr>
-                <tr>
-                    <td>1.Maharashtra</td>
-                    <td>6,000</td>
-                </tr>
-            </table>
+                                <th>No.</th>
+                                <th>State</th>
+                                <th> Confirmed Cases</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <td></td>
+                            <td>{{stateInfo[0].state}}</td>
+                            <td>{{stateInfo[0].confirmed | number}}</td>
+                            <tr *ngFor="let state of stateInfo | slice:1; let i = index">
+                                <td>{{i+1}}.</td>
+                                <td>{{state.state}}</td>
+                                <td>{{state.confirmed | number}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
             <div class="svgcontent">
                 <svg></svg>
+                <!-- <span id="confirmed-cases">Confirmed Cases</span> -->
                 <div class="colors">
+
                     <div class="colordata">
                         <span><500</span>
                         <div class="color1 colordim"></div>

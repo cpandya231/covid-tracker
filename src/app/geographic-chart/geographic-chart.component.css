@@ -9,13 +9,52 @@
     margin: 2em auto;
 }
 
+h2 {
+    color: #0C2FE7;
+    padding: 0.5em 1em 0.5em;
+    margin-bottom: 0em;
+}
+
+
+/* 
+::-webkit-scrollbar {
+    width: 0px;
+    
+} */
+
+::ng-deep.table-wrapper {
+    margin-left: 1.5em;
+}
+
+::ng-deep.table-container {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 35em;
+    /* -ms-overflow-style: none;
+    
+    scrollbar-width: none; */
+}
+
 ::ng-deep table {
-    border-bottom: 2px solid #707070;
+    border-collapse: collapse;
     border-top: 2px solid #707070;
+    width: 100%;
+}
+
+::ng-deep tr:first-child {
+    border-bottom: 2px solid #707070;
+}
+
+::ng-deep th {
+    padding: 0.8em;
+    font-size: 1rem;
+    text-align: left;
 }
 
 ::ng-deep td {
     border-bottom: 1px solid #ddd;
+    padding: 0.8em;
+    font-size: 1rem;
 }
 
 ::ng-deep.flexbox {
@@ -23,7 +62,7 @@
 }
 
 ::ng-deep svg {
-    margin: 1em 2em 1em 20em;
+    margin: 1em 2em 1em 4em;
 }
 
 ::ng-deep.subunit {
@@ -55,11 +94,11 @@
     opacity: 0;
 }
 
-::ng-deep.colors {
+.colors {
     display: flex;
     justify-content: space-evenly;
-    width: 43%;
-    margin-left: 22em;
+    width: 63%;
+    margin-left: 5em;
 }
 
 ::ng-deep.colordim {
@@ -91,6 +130,27 @@
     background-color: #091D83;
 }
 
-::ng-deep span {
+::ng-deep #confirmed-cases {
+    margin-left: 2em;
+}
+
+::ng-deep .colordata span,
+span {
     font-size: 0.45rem;
+}
+
+::ng-deep.confirmed {
+    color: blue;
+}
+
+::ng-deep.active {
+    color: red;
+}
+
+::ng-deep.recovered {
+    color: rgb(48, 197, 48);
+}
+
+::ng-deep.death {
+    color: gray;
 }
