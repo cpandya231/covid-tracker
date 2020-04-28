@@ -1,3 +1,78 @@
-<div id="content">
+<div class="parent">
+    <div id="content">
+        <h2>Covid-19 India </h2>
+        <div class="container">
+            <div class="svgcontent">
+                <svg></svg>
+                <!-- <span id="confirmed-cases">Confirmed Cases</span> -->
+                <div class="colors">
 
+                    <div class="colordata">
+                        <span>0</span>
+                        <div class="color1 colordim"></div>
+                    </div>
+
+                    <div class="colordata">
+                        <span>500  </span>
+                        <div class="color2 colordim"></div>
+                    </div>
+
+                    <div class="colordata">
+                        <span>1,000</span>
+                        <div class="color3 colordim"></div>
+                    </div>
+
+                    <div class="colordata">
+                        <span>2,000</span>
+                        <div class="color4 colordim"></div>
+                    </div>
+
+                    <div class="colordata">
+                        <span>4,000</span>
+                        <div class="color5 colordim"></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+
+
+                                <th>State</th>
+                                <th class="confirmed"> Conf </th>
+                                <th class="active"> Act </th>
+                                <th class="recovered"> Rec </th>
+                                <th class="death"> Death </th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>{{stateInfo[0].state}}</td>
+                                <td>{{stateInfo[0].confirmed | number}}</td>
+                                <td>{{stateInfo[0].active | number}}</td>
+                                <td>{{stateInfo[0].recovered | number}}</td>
+                                <td>{{stateInfo[0].recovered | number}}</td>
+                            </tr>
+                            <tr *ngFor="let state of stateInfo | slice:1; let i = index" id="{{state.state}}">
+
+                                <td>{{state.state}}</td>
+                                <td>{{state.confirmed | number}}</td>
+                                <td>{{state.active | number}}</td>
+                                <td>{{state.recovered | number}}</td>
+                                <td>{{state.deaths | number}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
 </div>

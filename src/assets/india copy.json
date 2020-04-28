@@ -5,7 +5,7 @@
             "type": "GeometryCollection",
             "geometries": [{
                 "type": "MultiPolygon",
-                "properties": { "st_nm": "Andaman & Nicobar Island" },
+                "properties": { "st_nm": "Andaman and Nicobar Islands" },
                 "arcs": [
                     [
                         [0]
@@ -60,7 +60,7 @@
                 ]
             }, {
                 "type": "Polygon",
-                "properties": { "st_nm": "Arunanchal Pradesh" },
+                "properties": { "st_nm": "Arunachal Pradesh" },
                 "arcs": [
                     [19, 20, 21]
                 ]
@@ -293,7 +293,7 @@
                 ]
             }, {
                 "type": "Polygon",
-                "properties": { "st_nm": "Jammu & Kashmir" },
+                "properties": { "st_nm": "Jammu and Kashmir" },
                 "arcs": [
                     [-135, -62, 135]
                 ]
@@ -365,7 +365,7 @@
                 ]
             }, {
                 "type": "Polygon",
-                "properties": { "st_nm": "NCT of Delhi" },
+                "properties": { "st_nm": "Delhi" },
                 "arcs": [
                     [-88, -132]
                 ]
