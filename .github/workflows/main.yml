@@ -12,20 +12,29 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "build"
   build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-    runs-on: ubuntu-18.04
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js 8.15.1
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 12.14.1
       uses: actions/setup-node@v1
       with:
-        node-version: 8.15.1
-    - name: Build and Deploy
+        node-version: 12.14.1
+    - name: Build
+      run: |
+         npm install -g @angular/cli
+         npm install
+         ng build --prod --base-href="/covid-tracker/"
+    - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v2
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BASE_BRANCH: master
         BRANCH: gh-pages
-        FOLDER: dist/ang-website
-        BUILD_SCRIPT: npm install && npm run build -- --prod
+        FOLDER: dist/covid-tracker
