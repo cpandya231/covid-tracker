@@ -46,7 +46,7 @@ export class GeographicChartComponent implements OnInit {
 
 
 
-      d3.json("../../assets/india copy.json").then(function (india) {
+      d3.json("assets/india.json").then(function (india) {
 
         var boundary = self.centerZoom(india);
         var subunits = self.drawSubUnits(india);
