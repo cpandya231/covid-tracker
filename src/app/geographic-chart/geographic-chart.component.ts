@@ -13,7 +13,7 @@ export class GeographicChartComponent implements OnInit {
 
   geoJson: any;
   width = 580;
-  height = 500;
+  height = 520;
   stateInfo: StateInfo[];
   path: any;
   projection: any;
@@ -33,8 +33,10 @@ export class GeographicChartComponent implements OnInit {
         .pointRadius(2);
 
       var svg = d3.select("svg")
-        .attr("width", self.width)
-        .attr("height", self.height);
+        // .attr("width", self.width)
+        // .attr("height", self.height);
+        .attr("viewBox", `0 0 ${this.height} ${this.width}`)
+        .attr("preserveAspectRatio","xMidYMid meet");
 
       self.group = svg.append("g");
 
@@ -104,6 +106,7 @@ export class GeographicChartComponent implements OnInit {
 
       d3.select(this)
         .classed("active", true);
+        
 
     };
   }
@@ -154,12 +157,13 @@ export class GeographicChartComponent implements OnInit {
     // d3.scaleOrdinal( d3.schemeCategory10);
 
     var c =
-     ["#091D83", "#0C2FE7","#5F76F0", "#99AAF8", "#BAC5F8"];
+      ["#091D83", "#0C2FE7", "#5F76F0", "#99AAF8", "#BAC5F8"];
     subunits
       .style("fill", function (d, i) {
 
         let color = getColor(d);
         console.log(c[color]);
+        
         return c[color];
 
       })
@@ -186,7 +190,7 @@ export class GeographicChartComponent implements OnInit {
           }
           console.log(`${stateInfo.state} color ${color}`)
         }
-        
+
 
       }
       return color;

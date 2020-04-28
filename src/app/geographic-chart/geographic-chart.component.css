@@ -2,86 +2,64 @@
     height: 100%;
 }
 
-::ng-deep#content {
-    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
-    width: 70%;
-    height: 40em;
-    margin: 2em auto;
-}
-
 h2 {
     color: #0C2FE7;
     padding: 0.5em 1em 0.5em;
     margin-bottom: 0em;
+    text-align: center;
 }
 
-
-/* 
-::-webkit-scrollbar {
-    width: 0px;
-    
-} */
-
-::ng-deep.table-wrapper {
-    margin-left: 1.5em;
-}
-
-::ng-deep.table-container {
-    overflow-x: hidden;
-    overflow-y: scroll;
-    height: 35em;
-    /* -ms-overflow-style: none;
-    
-    scrollbar-width: none; */
-}
-
-::ng-deep table {
+table {
     border-collapse: collapse;
     border-top: 2px solid #707070;
     width: 100%;
 }
 
-::ng-deep tr:first-child {
+tr:first-child {
     border-bottom: 2px solid #707070;
 }
 
-::ng-deep th {
-    padding: 0.8em;
-    font-size: 1rem;
+th {
+    padding: 0.6em;
+    font-size: 0.9rem;
     text-align: left;
 }
 
-::ng-deep td {
+ ::ng-deep td {
     border-bottom: 1px solid #ddd;
-    padding: 0.8em;
-    font-size: 1rem;
+    padding: 0.5em;
+    font-size: 0.9rem;
 }
 
-::ng-deep.flexbox {
-    display: flex;
+ ::ng-deep tr:hover {
+    background-color: #BAC5F8;
 }
 
-::ng-deep svg {
-    margin: 1em 2em 1em 4em;
+ ::ng-deep tr:hover:first-child {
+    background-color: inherit;
 }
 
-::ng-deep.subunit {
+svg {
+    margin: 1em 2em 1em 1em;
+}
+
+ ::ng-deep.subunit {
     stroke: #fff;
     stroke-width: 1px;
 }
 
-::ng-deep.subunit.active {
+ ::ng-deep.subunit.active {
     cursor: pointer;
 }
 
-::ng-deep.subunit-label {
+ ::ng-deep.subunit-label {
     font-size: .5em;
     text-shadow: 0px 0px 2px #fff;
     font-weight: bold;
     text-transform: uppercase;
 }
 
-::ng-deep.tooltip {
+ ::ng-deep.tooltip {
     position: absolute;
     text-align: center;
     width: 100px;
@@ -96,61 +74,123 @@ h2 {
 
 .colors {
     display: flex;
-    justify-content: space-evenly;
-    width: 63%;
-    margin-left: 5em;
+    justify-content: center;
+    width: 60%;
+    margin: -3em 5.0em 3em;
 }
 
-::ng-deep.colordim {
+.colordim {
     width: 3.6em;
     height: 1.2em;
 }
 
-::ng-deep.colordata {
-    text-align: center;
-}
-
-::ng-deep.color1 {
+.color1 {
     background-color: #BAC5F8;
 }
 
-::ng-deep.color2 {
+.color2 {
     background-color: #99AAF8;
 }
 
-::ng-deep.color3 {
+.color3 {
     background-color: #5F76F0;
 }
 
-::ng-deep.color4 {
+.color4 {
     background-color: #0C2FE7;
 }
 
-::ng-deep.color5 {
+.color5 {
     background-color: #091D83;
 }
 
-::ng-deep #confirmed-cases {
+ ::ng-deep #confirmed-cases {
     margin-left: 2em;
 }
 
-::ng-deep .colordata span,
+ ::ng-deep .colordata span,
 span {
     font-size: 0.45rem;
 }
 
-::ng-deep.confirmed {
+ ::ng-deep.confirmed {
     color: blue;
 }
 
-::ng-deep.active {
+ ::ng-deep.active {
     color: red;
 }
 
-::ng-deep.recovered {
+ ::ng-deep.recovered {
     color: rgb(48, 197, 48);
 }
 
-::ng-deep.death {
+ ::ng-deep.death {
     color: gray;
+}
+
+.svgcontent {
+    width: 100%;
+    height: 100%;
+}
+
+@media(min-width:730px) {
+    .colors {
+        width: 80%;
+    }
+    .colordim {
+        width: 7em;
+        height: 1.2em;
+    }
+}
+
+@media(min-width:1024px) {
+    .svgcontent {
+        width: 50%;
+        height: 50%;
+    }
+     ::ng-deep#content {
+        box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
+        width: 95%;
+        height: 40em;
+        margin: 2em auto;
+    }
+     ::ng-deep.container {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row-reverse;
+    }
+    table {
+        display: block;
+        height: 560px;
+        overflow-y: scroll;
+    }
+    .colors {
+        width: 80%;
+        margin: -3em 2.0em 3em;
+    }
+    .colordim {
+        width: 3.6em;
+        height: 1.2em;
+    }
+}
+
+@media(min-width:1100px) {
+    .svgcontent {
+        width: 45%;
+    }
+}
+
+@media(min-width:1250px) {
+    .svgcontent {
+        width: 40%;
+    }
+    .colors {
+        width: 80%;
+        margin: -6em 1.4em 3em;
+    }
+    .colordim {
+        width: 4em;
+        height: 1.2em;
+    }
 }

@@ -1,58 +1,13 @@
 {
-    "type": "FeatureCollection",
-    "features": [{
-            "type": "Feature",
-            "properties": {
-                "name": "Africa"
-            },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [
-                        [-6, 36],
-                        [33, 30],
-                        [43, 11],
-                        [51, 12],
-                        [29, -33],
-                        [18, -35],
-                        [7, 5],
-                        [-17, 14],
-                        [-6, 36]
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "Australia"
-            },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [
-                        [143, -11],
-                        [153, -28],
-                        [144, -38],
-                        [131, -31],
-                        [116, -35],
-                        [114, -22],
-                        [136, -12],
-                        [140, -17],
-                        [143, -11]
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "Timbuktu"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [-3.0026, 16.7666]
-            }
-        }
-    ]
+    "auth0UserId": "auth0|5e74496cbf1f350cf6253661",
+    "email": "chintan.pandya@siemens.com",
+    "lastLoginTimeStamp": "2020-04-24 09:46:52.290",
+    "loginCount": 70,
+    "signupTimeStamp": "2020-03-20T04:41:20.555Z",
+    "source": "MINISITE",
+    "status": "ACTIVE",
+    "tenantId": "t_1dd4f647-cf59-4a2c-9db9-41b9e3a7dc7a",
+    "userId": "u_7e8274b1-53cc-4ac4-b7a4-294e5a3d224b",
+    "userType": "Owner",
+    "verification_emails": "[{\"sent_date\":\"2020-04-24 09:48:18.466\",\"jobId\":\"job_4jCwHDZVDIBjbJFU\"},{\"sent_date\":\"2020-04-24 11:08:23.939\",\"jobId\":\"job_Gq4HwEqlOPz4oU2t\"}]"
 }
