@@ -56,7 +56,7 @@
                                 <td>{{stateInfo[0].confirmed | number}}</td>
                                 <td>{{stateInfo[0].active | number}}</td>
                                 <td>{{stateInfo[0].recovered | number}}</td>
-                                <td>{{stateInfo[0].recovered | number}}</td>
+                                <td>{{stateInfo[0].deaths | number}}</td>
                             </tr>
                             <tr *ngFor="let state of stateInfo | slice:1; let i = index" id="{{state.state}}">
 
