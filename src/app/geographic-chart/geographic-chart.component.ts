@@ -12,7 +12,7 @@ import { color } from 'd3';
 export class GeographicChartComponent implements OnInit {
 
   geoJson: any;
-  width = 580;
+  width = 500;
   height = 520;
   stateInfo: StateInfo[];
   path: any;
@@ -36,7 +36,7 @@ export class GeographicChartComponent implements OnInit {
         // .attr("width", self.width)
         // .attr("height", self.height);
         .attr("viewBox", `0 0 ${this.height} ${this.width}`)
-        .attr("preserveAspectRatio","xMidYMid meet");
+        .attr("preserveAspectRatio", "xMidYMid meet");
 
       self.group = svg.append("g");
 
@@ -44,12 +44,12 @@ export class GeographicChartComponent implements OnInit {
         .append("div")
         .attr("class", "tooltip");
 
-
+        
 
       d3.json("assets/india.json").then(function (india) {
 
         var boundary = self.centerZoom(india);
-        var subunits = self.drawSubUnits(india);
+        var subunits = self.drawStates(india);
         self.colorSubunits(subunits);
         // self.drawSubUnitLabels(india);
         self.drawOuterBoundary(india, boundary);
@@ -59,6 +59,7 @@ export class GeographicChartComponent implements OnInit {
       })
 
     })
+    
 
 
   }
@@ -85,7 +86,7 @@ export class GeographicChartComponent implements OnInit {
 
   }
 
-  drawSubUnits(data) {
+  drawStates(data) {
 
     var subunits = this.group.selectAll(".subunit")
       .data((topojson.feature(data, data.objects.polygons) as any).features)
@@ -94,9 +95,18 @@ export class GeographicChartComponent implements OnInit {
       .attr("d", this.path)
       .on("mouseover", this.mouseOverEvent())
       .on("mousemove", this.mouseMoveEvent())
-      .on("mouseout", this.mouseOutEvent());
+      .on("mouseout", this.mouseOutEvent())
+      .on("click", this.mouseClickEvent())
     return subunits;
 
+  }
+
+  private mouseClickEvent(): any {
+    console.log("Mouse click event")
+    var self = this;
+    return function (d) {
+      self.getStateJson(d.properties.st_nm.toLowerCase().replace(/\s/g,''))
+    }
   }
 
 
@@ -106,7 +116,7 @@ export class GeographicChartComponent implements OnInit {
 
       d3.select(this)
         .classed("active", true);
-        
+
 
     };
   }
@@ -118,7 +128,7 @@ export class GeographicChartComponent implements OnInit {
         return data.state == d.properties.st_nm;
 
       }).map(stateInfo => {
-        console.log(stateInfo);
+        
         d3.select(this)
           .classed("active", true);
         self.tooltip.transition()
@@ -163,7 +173,7 @@ export class GeographicChartComponent implements OnInit {
 
         let color = getColor(d);
         console.log(c[color]);
-        
+
         return c[color];
 
       })
@@ -188,7 +198,7 @@ export class GeographicChartComponent implements OnInit {
           } else {
             color = "4";
           }
-          console.log(`${stateInfo.state} color ${color}`)
+          
         }
 
 
@@ -209,6 +219,33 @@ export class GeographicChartComponent implements OnInit {
       .attr("stroke", "#3a403d");
 
   }
+  getStateJson(state) {
+    var self = this;
+    d3.json(`assets/${state}.json`).then(function (data) {
+
+      var boundary = self.centerZoom(data);
+      var subunits = self.drawDistricts(data);
+      self.colorSubunits(subunits);
+      // self.drawSubUnitLabels(india);
+      self.drawOuterBoundary(data, boundary);
+
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
+  drawDistricts(data) {
+
+    var subunits = this.group.selectAll(".subunit")
+      .data((topojson.feature(data, data.objects.polygons) as any).features)
+      .enter().append("path")
+      .attr("class", "subunit")
+      .attr("d", this.path)
+
+    return subunits;
+
+  }
+
 
 
 
