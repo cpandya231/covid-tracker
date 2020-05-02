@@ -37,7 +37,7 @@
             </div>
             <div class="table-wrapper">
                 <div class="table-container">
-                    <table>
+                    <table id="state-data">
                         <thead>
                             <tr>
 
@@ -59,14 +59,30 @@
                                 <td>{{stateInfo[0].recovered | number}}</td>
                                 <td>{{stateInfo[0].deaths | number}}</td>
                             </tr>
-                            <tr *ngFor="let state of stateInfo | slice:1; let i = index" id="{{state.state}}" (click)="drawPlace(state.state)">
+                            <tr *ngFor="let state of stateInfo | slice:1; let i = index" id="{{state.state}}" (click)="drawPlace(state.state,i)">
 
-                                <td>{{state.state}}</td>
+                                <td>{{state.state}} </td>
                                 <td>{{state.confirmed | number}}</td>
                                 <td>{{state.active | number}}</td>
                                 <td>{{state.recovered | number}}</td>
                                 <td>{{state.deaths | number}}</td>
+                                <td>
+                                    <div class="collapse" *ngIf="toggled && expandedIndex===i">
+
+                                        <tr *ngFor="let district of selectedStateInfo.districtData">
+
+
+                                            <td>{{district.district}} </td>
+                                            <td>{{district.confirmed | number}}</td>
+                                            <td>{{district.active | number}}</td>
+                                            <td>{{district.recovered | number}}</td>
+                                            <td>{{district.deceased | number}}</td>
+                                        </tr>
+
+                                    </div>
+                                </td>
                             </tr>
+
                         </tbody>
                     </table>
 

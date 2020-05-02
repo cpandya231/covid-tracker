@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import * as topojson from 'topojson';
 import { DataService } from '../data.service';
 import { StateInfo } from './../StateInfo';
-import { color, select } from 'd3';
+import { StateDistrictInfo } from '../DistrictInfo';
 @Component({
   selector: 'app-geographic-chart',
   templateUrl: './geographic-chart.component.html',
@@ -15,44 +15,47 @@ export class GeographicChartComponent implements OnInit {
   width = 491;
   height = 491;
   stateInfo: StateInfo[];
+  stateInfoDistrictInfo: StateDistrictInfo[];
+  selectedStateInfo: StateDistrictInfo;
   path: any;
   projection: any;
   group: any;
   tooltip: any;
-
+  toggled: boolean = false;
+  expandedIndex: any;
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
     var self = this;
     this.dataService.getStateInfo().subscribe(data => {
-      self.stateInfo = data.statewise as StateInfo[];
-      self.projection = d3.geoMercator();
-      self.path = d3.geoPath()
-        .projection(self.projection)
-        .pointRadius(2);
+      this.dataService.getStateDistrictInfo().subscribe(statedistrictData => {
+        self.stateInfoDistrictInfo = statedistrictData as StateDistrictInfo[];
+        self.stateInfo = data.statewise as StateInfo[];
+        self.projection = d3.geoMercator();
+        self.path = d3.geoPath()
+          .projection(self.projection)
+          .pointRadius(2);
 
+        var svg = d3.select("svg")
+          .attr("viewBox", `0 0 ${this.height} ${this.width}`)
+          .attr("preserveAspectRatio", "xMidYMid meet");
 
+        self.group = svg.append("g");
 
-      var svg = d3.select("svg")
-        .attr("viewBox", `0 0 ${this.height} ${this.width}`)
-        .attr("preserveAspectRatio", "xMidYMid meet");
+        this.tooltip = d3.select("#content")
+          .append("div")
+          .attr("class", "tooltip");
 
-      self.group = svg.append("g");
+        this.drawIndiaMap();
 
-      this.tooltip = d3.select("#content")
-        .append("div")
-        .attr("class", "tooltip");
-
-      this.drawIndiaMap();
-
-
+      })
 
     })
   }
 
 
-   drawIndiaMap() {
-    var self=this;
+  drawIndiaMap() {
+    var self = this;
     self.clearSvg(self);
     d3.json("../../assets/india.json").then(function (india) {
       var boundary = self.centerZoom(india);
@@ -86,7 +89,7 @@ export class GeographicChartComponent implements OnInit {
 
   drawStates(data) {
     d3.select(".svgcontent")
-    .classed("svgcontent-width", false);
+      .classed("svgcontent-width", false);
     var subunits = this.group.selectAll(".subunit")
       .data((topojson.feature(data, data.objects.polygons) as any).features)
       .enter().append("path")
@@ -103,10 +106,10 @@ export class GeographicChartComponent implements OnInit {
   private mouseClickEvent(): any {
 
     var self = this;
-    
+
     return function (d) {
       self.tooltip.style("opacity", 0);
-      self.drawPlace(d.properties.st_nm);
+      self.drawPlace(d.properties.st_nm, -1);
     }
   }
 
@@ -199,8 +202,6 @@ export class GeographicChartComponent implements OnInit {
           }
 
         }
-
-
       }
       return color;
 
@@ -218,45 +219,58 @@ export class GeographicChartComponent implements OnInit {
       .attr("stroke", "#3a403d");
 
   }
-  drawPlace(state) {
-    state = state.toLowerCase().replace(/\s/g, '');
+  drawPlace(state, index) {
     var self = this;
+    state = state.toLowerCase().replace(/\s/g, '');
+    this.expandedIndex=index;
     this.clearSvg(self);
     d3.json(`assets/${state}.json`).then(function (data) {
-      
+
       var boundary = self.centerZoom(data);
       var subunits = self.drawDistricts(data);
       self.colorSubunits(subunits);
 
       self.drawOuterBoundary(data, boundary);
+      self.toggled = true;
 
+      self.getDistrictInfo(state);
     }).catch(err => {
       console.log(err);
     })
   }
 
   private clearSvg(self: this) {
-    
+
     d3.select("g").remove();
     self.group = d3.select("svg").append("g");
 
   }
 
   drawDistricts(data) {
-    
+
     var subunits = this.group.selectAll(".subunit")
       .data((topojson.feature(data, data.objects.polygons) as any).features)
       .enter().append("path")
       .attr("class", "subunit")
       .attr("d", this.path)
       .on("click", this.mouseOutEvent());
-      d3.select(".svgcontent")
-        .classed("svgcontent-width", true);
+    d3.select(".svgcontent")
+      .classed("svgcontent-width", true);
 
     return subunits;
 
   }
 
+
+  getDistrictInfo(state) {
+
+    this.selectedStateInfo = this.stateInfoDistrictInfo.filter((data) => {
+      var stateFromData = data.state.toLowerCase().replace(/\s/g, '')
+      return stateFromData == state;
+    })[0];
+    console.log(this.selectedStateInfo)
+
+  }
 
 
 

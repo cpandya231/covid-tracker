@@ -9,7 +9,7 @@ h2 {
     text-align: center;
 }
 
-table {
+#state-data {
     border-collapse: collapse;
     border-top: 2px solid #707070;
     width: 100%;
@@ -168,7 +168,7 @@ span {
         justify-content: space-evenly;
         flex-direction: row-reverse;
     }
-    table {
+    #state-data {
         display: block;
         height: 560px;
         overflow-y: scroll;
