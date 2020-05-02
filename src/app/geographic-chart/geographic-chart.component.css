@@ -40,12 +40,13 @@ th {
 }
 
 svg {
-    margin: 1em 2em 1em 1em;
+    margin: 1em auto;
 }
 
  ::ng-deep.subunit {
     stroke: #fff;
     stroke-width: 1px;
+    display: inline;
 }
 
  ::ng-deep.subunit.active {
@@ -76,7 +77,7 @@ svg {
     display: flex;
     justify-content: center;
     width: 60%;
-    margin: -3em 5.0em 3em;
+    margin: 1em 5.0em 3em;
 }
 
 .colordim {
@@ -130,9 +131,12 @@ span {
 }
 
 .svgcontent {
-    width: 100%;
-    height: 100%;
     animation: fadeDown 1s forwards;
+}
+
+.svgcontent-width {
+    width: 80%;
+    margin-left: 2.5em;
 }
 
 .table-wrapper {
@@ -156,8 +160,6 @@ span {
         animation: fadeIn 5s forwards;
     }
      ::ng-deep#content {
-        box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
-        width: 95%;
         height: 40em;
         margin: 2em auto;
     }

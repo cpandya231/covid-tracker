@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import * as topojson from 'topojson';
 import { DataService } from '../data.service';
 import { StateInfo } from './../StateInfo';
-import { color } from 'd3';
+import { color, select } from 'd3';
 @Component({
   selector: 'app-geographic-chart',
   templateUrl: './geographic-chart.component.html',
@@ -12,8 +12,8 @@ import { color } from 'd3';
 export class GeographicChartComponent implements OnInit {
 
   geoJson: any;
-  width = 500;
-  height = 520;
+  width = 491;
+  height = 491;
   stateInfo: StateInfo[];
   path: any;
   projection: any;
@@ -25,16 +25,15 @@ export class GeographicChartComponent implements OnInit {
   ngOnInit(): void {
     var self = this;
     this.dataService.getStateInfo().subscribe(data => {
-      console.log(data.statewise)
       self.stateInfo = data.statewise as StateInfo[];
       self.projection = d3.geoMercator();
       self.path = d3.geoPath()
         .projection(self.projection)
         .pointRadius(2);
 
+
+
       var svg = d3.select("svg")
-        // .attr("width", self.width)
-        // .attr("height", self.height);
         .attr("viewBox", `0 0 ${this.height} ${this.width}`)
         .attr("preserveAspectRatio", "xMidYMid meet");
 
@@ -44,28 +43,27 @@ export class GeographicChartComponent implements OnInit {
         .append("div")
         .attr("class", "tooltip");
 
-        
+      this.drawIndiaMap();
 
-      d3.json("assets/india.json").then(function (india) {
 
-        var boundary = self.centerZoom(india);
-        var subunits = self.drawStates(india);
-        self.colorSubunits(subunits);
-        // self.drawSubUnitLabels(india);
-        self.drawOuterBoundary(india, boundary);
-
-      }).catch(err => {
-        console.log(err);
-      })
 
     })
-    
-
-
   }
 
 
-
+   drawIndiaMap() {
+    var self=this;
+    self.clearSvg(self);
+    d3.json("../../assets/india.json").then(function (india) {
+      var boundary = self.centerZoom(india);
+      var subunits = self.drawStates(india);
+      self.colorSubunits(subunits);
+      // self.drawSubUnitLabels(india);
+      self.drawOuterBoundary(india, boundary);
+    }).catch(err => {
+      console.log(err);
+    });
+  }
 
   centerZoom(data) {
 
@@ -87,7 +85,8 @@ export class GeographicChartComponent implements OnInit {
   }
 
   drawStates(data) {
-
+    d3.select(".svgcontent")
+    .classed("svgcontent-width", false);
     var subunits = this.group.selectAll(".subunit")
       .data((topojson.feature(data, data.objects.polygons) as any).features)
       .enter().append("path")
@@ -102,10 +101,12 @@ export class GeographicChartComponent implements OnInit {
   }
 
   private mouseClickEvent(): any {
-    console.log("Mouse click event")
+
     var self = this;
+    
     return function (d) {
-      self.getStateJson(d.properties.st_nm.toLowerCase().replace(/\s/g,''))
+      self.tooltip.style("opacity", 0);
+      self.drawPlace(d.properties.st_nm);
     }
   }
 
@@ -128,7 +129,7 @@ export class GeographicChartComponent implements OnInit {
         return data.state == d.properties.st_nm;
 
       }).map(stateInfo => {
-        
+
         d3.select(this)
           .classed("active", true);
         self.tooltip.transition()
@@ -172,8 +173,6 @@ export class GeographicChartComponent implements OnInit {
       .style("fill", function (d, i) {
 
         let color = getColor(d);
-        console.log(c[color]);
-
         return c[color];
 
       })
@@ -198,7 +197,7 @@ export class GeographicChartComponent implements OnInit {
           } else {
             color = "4";
           }
-          
+
         }
 
 
@@ -219,14 +218,16 @@ export class GeographicChartComponent implements OnInit {
       .attr("stroke", "#3a403d");
 
   }
-  getStateJson(state) {
+  drawPlace(state) {
+    state = state.toLowerCase().replace(/\s/g, '');
     var self = this;
+    this.clearSvg(self);
     d3.json(`assets/${state}.json`).then(function (data) {
-
+      
       var boundary = self.centerZoom(data);
       var subunits = self.drawDistricts(data);
       self.colorSubunits(subunits);
-      // self.drawSubUnitLabels(india);
+
       self.drawOuterBoundary(data, boundary);
 
     }).catch(err => {
@@ -234,13 +235,23 @@ export class GeographicChartComponent implements OnInit {
     })
   }
 
-  drawDistricts(data) {
+  private clearSvg(self: this) {
+    
+    d3.select("g").remove();
+    self.group = d3.select("svg").append("g");
 
+  }
+
+  drawDistricts(data) {
+    
     var subunits = this.group.selectAll(".subunit")
       .data((topojson.feature(data, data.objects.polygons) as any).features)
       .enter().append("path")
       .attr("class", "subunit")
       .attr("d", this.path)
+      .on("click", this.mouseOutEvent());
+      d3.select(".svgcontent")
+        .classed("svgcontent-width", true);
 
     return subunits;
 
