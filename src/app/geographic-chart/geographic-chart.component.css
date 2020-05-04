@@ -20,14 +20,14 @@ tr:first-child {
 }
 
 th {
-    padding: 0.6em;
+    padding: 0.6em 0em;
     font-size: 0.9rem;
     text-align: left;
 }
 
  ::ng-deep td {
     border-bottom: 1px solid #ddd;
-    padding: 0.5em;
+    padding: 0.6em 0em;
     font-size: 0.9rem;
 }
 
@@ -109,25 +109,8 @@ svg {
     margin-left: 2em;
 }
 
- ::ng-deep .colordata span,
-span {
+ ::ng-deep .colordata span {
     font-size: 0.45rem;
-}
-
- ::ng-deep.confirmed {
-    color: blue;
-}
-
- ::ng-deep.active {
-    color: red;
-}
-
- ::ng-deep.recovered {
-    color: rgb(48, 197, 48);
-}
-
- ::ng-deep.death {
-    color: gray;
 }
 
 .svgcontent {
@@ -141,6 +124,78 @@ span {
 
 .table-wrapper {
     animation: fadeDown 3s forwards;
+}
+
+.mat-accordion .mat-header-row {
+    border-bottom: none;
+}
+
+.mat-expansion-panel-header {
+    font-family: "Montserrat", "sans-serif";
+}
+
+.mat-expansion-panel-body {
+    padding: 0px 24px 0px;
+}
+
+.mat-expansion-panel-content {
+    font: 400 14px/20px, "Montserrat", "sans-serif";
+}
+
+.mat-table {
+    display: block;
+}
+
+.mat-cell,
+.mat-header-cell {
+    flex: 1;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+.mat-header-row {
+    min-height: 58px;
+}
+
+::ng-deep.mat-header-cell {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: black;
+}
+
+.mat-row,
+.mat-header-row {
+    display: flex;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    align-items: center;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.mat-action-row {
+    border-top-style: none;
+    border-top-width: 1px;
+    display: block;
+    /* flex-direction: row; */
+    /* justify-content: flex-end; */
+    padding: 0 24px;
+}
+
+::ng-deep.confirmed {
+    color: blue;
+}
+
+ ::ng-deep.active {
+    color: red;
+}
+
+ ::ng-deep.recovered {
+    color: rgb(48, 197, 48);
+}
+
+ ::ng-deep.death {
+    color: gray;
 }
 
 @media(min-width:730px) {

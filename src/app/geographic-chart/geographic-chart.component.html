@@ -37,39 +37,55 @@
             </div>
             <div class="table-wrapper">
                 <div class="table-container">
-                    <table id="state-data">
-                        <thead>
-                            <tr>
+
+                    <mat-accordion displayMode="flat" class="mat-table">
 
 
-                                <th>State</th>
-                                <th class="confirmed"> Conf </th>
-                                <th class="active"> Act </th>
-                                <th class="recovered"> Rec </th>
-                                <th class="death"> Death </th>
+                        <section class="mat-elevation-z2 mat-header-row" matSort (matSortChange)="sortStateData($event)">
+                            <span class="mat-header-cell" mat-sort-header="state">State</span>
+                            <span class="mat-header-cell confirmed" mat-sort-header="confirmed">Conf</span>
+                            <span class="mat-header-cell active" mat-sort-header="active">Act</span>
+                            <span class="mat-header-cell recovered" mat-sort-header="recovered">Rec</span>
+                            <span class="mat-header-cell death" mat-sort-header="death">Death</span>
+                        </section>
 
-                            </tr>
-                        </thead>
+                        <mat-expansion-panel (click)="drawIndiaMap()" disabled>
+                            <mat-expansion-panel-header class="mat-row">
+                                <span class="mat-cell">{{stateInfo[0].state}}</span>
+                                <span class="mat-cell">{{stateInfo[0].confirmed | number}}</span>
+                                <span class="mat-cell">{{stateInfo[0].active | number}}</span>
+                                <span class="mat-cell">{{stateInfo[0].recovered | number}}</span>
+                                <span class="mat-cell">{{stateInfo[0].deaths | number}}</span>
+                            </mat-expansion-panel-header>
+                        </mat-expansion-panel>
 
-                        <tbody>
-                            <tr (click)="drawIndiaMap()">
-                                <td>{{stateInfo[0].state}}</td>
-                                <td>{{stateInfo[0].confirmed | number}}</td>
-                                <td>{{stateInfo[0].active | number}}</td>
-                                <td>{{stateInfo[0].recovered | number}}</td>
-                                <td>{{stateInfo[0].deaths | number}}</td>
-                            </tr>
-                            <tr *ngFor="let state of stateInfo | slice:1; let i = index" id="{{state.state}}" (click)="drawPlace(state.state,i)">
 
-                                <td>{{state.state}} </td>
-                                <td>{{state.confirmed | number}}</td>
-                                <td>{{state.active | number}}</td>
-                                <td>{{state.recovered | number}}</td>
-                                <td>{{state.deaths | number}}</td>
-                                <td>
-                                    <div class="collapse" *ngIf="toggled && expandedIndex===i">
+                        <mat-expansion-panel *ngFor="let state of sortedStateInfo | slice:1; let i = index" id="{{state.state}}" [disabled]="state.confirmed == 0">
 
-                                        <tr *ngFor="let district of selectedStateInfo.districtData">
+                            <mat-expansion-panel-header class="mat-row" (click)="drawPlace(state.state,i)">
+                                <span class="mat-cell">{{state.state}}</span>
+                                <span class="mat-cell">{{state.confirmed | number}}</span>
+                                <span class="mat-cell">{{state.active | number}}</span>
+                                <span class="mat-cell">{{state.recovered | number}}</span>
+                                <span class="mat-cell">{{state.deaths | number}}</span>
+                            </mat-expansion-panel-header>
+                            <mat-action-row>
+                                <ng-container *ngIf="selectedStateInfo">
+                                    <table matSort (matSortChange)="sortData($event)">
+
+
+
+                                        <tr>
+                                            <th mat-sort-header="district">District</th>
+                                            <th mat-sort-header="confirmed" class="confirmed"> Conf </th>
+                                            <th mat-sort-header="active" class="active"> Act </th>
+                                            <th mat-sort-header="recovered" class="recovered"> Rec </th>
+                                            <th mat-sort-header="death" class="death"> Death </th>
+
+                                        </tr>
+
+
+                                        <tr *ngFor="let district of sortedDistricts">
 
 
                                             <td>{{district.district}} </td>
@@ -79,12 +95,15 @@
                                             <td>{{district.deceased | number}}</td>
                                         </tr>
 
-                                    </div>
-                                </td>
-                            </tr>
+                                    </table>
+                                </ng-container>
+                            </mat-action-row>
+                        </mat-expansion-panel>
 
-                        </tbody>
-                    </table>
+
+                    </mat-accordion>
+
+
 
                 </div>
             </div>

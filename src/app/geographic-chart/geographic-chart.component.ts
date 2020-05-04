@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import * as topojson from 'topojson';
 import { DataService } from '../data.service';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { StateInfo } from './../StateInfo';
-import { StateDistrictInfo } from '../DistrictInfo';
+import { StateDistrictInfo, DistrictInfo } from '../DistrictInfo';
 @Component({
   selector: 'app-geographic-chart',
   templateUrl: './geographic-chart.component.html',
@@ -11,26 +13,39 @@ import { StateDistrictInfo } from '../DistrictInfo';
 })
 export class GeographicChartComponent implements OnInit {
 
+  @ViewChild(MatSort) sort: MatSort;
+
   geoJson: any;
   width = 491;
   height = 491;
   stateInfo: StateInfo[];
+  sortedStateInfo: StateInfo[];
   stateInfoDistrictInfo: StateDistrictInfo[];
   selectedStateInfo: StateDistrictInfo;
+  sortedDistricts: DistrictInfo[]
   path: any;
   projection: any;
   group: any;
   tooltip: any;
   toggled: boolean = false;
   expandedIndex: any;
+  diableExpansion: any = true;
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
+
+
     var self = this;
     this.dataService.getStateInfo().subscribe(data => {
       this.dataService.getStateDistrictInfo().subscribe(statedistrictData => {
         self.stateInfoDistrictInfo = statedistrictData as StateDistrictInfo[];
         self.stateInfo = data.statewise as StateInfo[];
+        var sort: Sort = {
+          active: "confirmed",
+          direction: "desc"
+        };
+
+        this.sortStateData(sort);
         self.projection = d3.geoMercator();
         self.path = d3.geoPath()
           .projection(self.projection)
@@ -222,7 +237,7 @@ export class GeographicChartComponent implements OnInit {
   drawPlace(state, index) {
     var self = this;
     state = state.toLowerCase().replace(/\s/g, '');
-    this.expandedIndex=index;
+    this.expandedIndex = index;
     this.clearSvg(self);
     d3.json(`assets/${state}.json`).then(function (data) {
 
@@ -268,8 +283,66 @@ export class GeographicChartComponent implements OnInit {
       var stateFromData = data.state.toLowerCase().replace(/\s/g, '')
       return stateFromData == state;
     })[0];
-    console.log(this.selectedStateInfo)
+    console.log(this.selectedStateInfo);
+    var sort: Sort = {
+      active: "confirmed",
+      direction: "desc"
+    };
 
+    this.sortData(sort);
+
+  }
+
+  sortData(sort: Sort) {
+    const data = this.selectedStateInfo.districtData.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedDistricts = data;
+      return;
+    }
+
+    this.sortedDistricts = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'district': return this.compare(a.district, b.district, isAsc,false);
+        case 'confirmed': return this.compare(a.confirmed, b.confirmed, isAsc,true);
+        case 'active': return this.compare(a.active, b.active, isAsc,true);
+        case 'recovered': return this.compare(a.recovered, b.recovered, isAsc,true);
+        case 'death': return this.compare(a.deceased, b.deceased, isAsc,true);
+        default: return 0;
+      }
+    });
+
+   
+  }
+
+
+  sortStateData(sort: Sort) {
+    const data = this.stateInfo.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedStateInfo = data;
+      return;
+    }
+
+    this.sortedStateInfo = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'state': return this.compare(a.state, b.state, isAsc, false);
+        case 'confirmed': return this.compare(a.confirmed, b.confirmed, isAsc, true);
+        case 'active': return this.compare(a.active, b.active, isAsc, true);
+        case 'recovered': return this.compare(a.recovered, b.recovered, isAsc, true);
+        case 'death': return this.compare(a.deaths, b.deaths, isAsc, true);
+        default: return 0;
+      }
+    });
+
+   
+  }
+
+   compare(a: string, b: string, isAsc: boolean, isNum: boolean) {
+    if (isNum) {
+      return (parseInt(a) < parseInt(b) ? -1 : 1) * (isAsc ? 1 : -1);
+    }
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
 
