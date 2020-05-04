@@ -15,10 +15,6 @@ h2 {
     width: 100%;
 }
 
-tr:first-child {
-    border-bottom: 2px solid #707070;
-}
-
 th {
     padding: 0.6em 0em;
     font-size: 0.9rem;
@@ -35,7 +31,7 @@ th {
     background-color: #BAC5F8;
 }
 
- ::ng-deep tr:hover:first-child {
+ ::ng-deep .mat-elevation-z8 tr:hover:first-child {
     background-color: inherit;
 }
 
@@ -126,60 +122,8 @@ svg {
     animation: fadeDown 3s forwards;
 }
 
-.mat-accordion .mat-header-row {
-    border-bottom: none;
-}
-
-.mat-expansion-panel-header {
-    font-family: "Montserrat", "sans-serif";
-}
-
-.mat-expansion-panel-body {
-    padding: 0px 24px 0px;
-}
-
-.mat-expansion-panel-content {
-    font: 400 14px/20px, "Montserrat", "sans-serif";
-}
-
-.mat-table {
-    display: block;
-}
-
-.mat-cell,
-.mat-header-cell {
-    flex: 1;
-    overflow: hidden;
-    word-wrap: break-word;
-}
-
-.mat-header-row {
-    min-height: 58px;
-}
-
-::ng-deep.mat-header-cell {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: black;
-}
-
-.mat-row,
-.mat-header-row {
-    display: flex;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    align-items: center;
-    padding: 0 24px;
-    box-sizing: border-box;
-}
-
-.mat-action-row {
-    border-top-style: none;
-    border-top-width: 1px;
-    display: block;
-    /* flex-direction: row; */
-    /* justify-content: flex-end; */
-    padding: 0 24px;
+.mat-cell {
+    padding: 0px 8px 0px 0;
 }
 
 ::ng-deep.confirmed {
@@ -196,6 +140,19 @@ svg {
 
  ::ng-deep.death {
     color: gray;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    display: flex;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+
+.example-element-detail table {
+    width: 100%;
 }
 
 @media(min-width:730px) {
