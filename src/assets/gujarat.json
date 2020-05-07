@@ -363,7 +363,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "474",
-                        "district": "Ahmadabad",
+                        "district": "Ahmedabad",
                         "st_nm": "Gujarat",
                         "st_code": "24",
                         "year": "2011_c"
@@ -451,7 +451,7 @@
                     "type": "MultiPolygon",
                     "properties": {
                         "dt_code": "468",
-                        "district": "Kachchh",
+                        "district": "Kutch",
                         "st_nm": "Gujarat",
                         "st_code": "24",
                         "year": "2011_c"

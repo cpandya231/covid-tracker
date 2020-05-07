@@ -21,18 +21,26 @@ th {
     text-align: left;
 }
 
- ::ng-deep td {
+td {
     border-bottom: 1px solid #ddd;
     padding: 0.6em 0em;
     font-size: 0.9rem;
 }
 
- ::ng-deep tr:hover {
+.state-info tr:hover {
     background-color: #BAC5F8;
 }
 
- ::ng-deep .mat-elevation-z8 tr:hover:first-child {
+.state-info tr:hover:first-child {
     background-color: inherit;
+}
+
+.district-info:hover {
+    background-color: white;
+}
+
+.district-info tr:hover {
+    background-color: #BAC5F8;
 }
 
 svg {
@@ -149,6 +157,10 @@ svg {
 
 tr.example-detail-row {
     height: 0;
+}
+
+tr.example-detail-row:hover {
+    background-color: white;
 }
 
 .example-element-detail table {

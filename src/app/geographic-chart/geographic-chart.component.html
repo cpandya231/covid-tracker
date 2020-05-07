@@ -37,7 +37,7 @@
             </div>
             <div class="table-wrapper">
                 <div class="table-container">
-                    <table mat-table [dataSource]="stateInfoDatasource" multiTemplateDataRows matSort class="mat-elevation-z8">
+                    <table mat-table [dataSource]="stateInfoDatasource" multiTemplateDataRows matSort class="state-info">
                         <ng-container matColumnDef="state">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> State </th>
                             <td mat-cell *matCellDef="let element"> {{element.state }} </td>
@@ -64,10 +64,10 @@
                         </ng-container>
 
                         <ng-container matColumnDef="expandedDetail">
-                            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length" class="district-info">
 
                                 <div *ngIf="selectedStateInfo" class="example-element-detail" [@detailExpand]="selectedStateInfo.state == element.state ?'expanded':'collapsed'">
-                                    <table mat-table [dataSource]="sortedDistricts" multiTemplateDataRows matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
+                                    <table mat-table [dataSource]="sortedDistricts" multiTemplateDataRows matSort (matSortChange)="sortData($event)">
                                         <ng-container matColumnDef="district">
                                             <th mat-header-cell *matHeaderCellDef mat-sort-header> District </th>
                                             <td mat-cell *matCellDef="let element"> {{element.district }} </td>

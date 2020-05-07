@@ -254,10 +254,21 @@ export class GeographicChartComponent implements OnInit {
       d3.json(`assets/${state}.json`).then(function (data) {
 
         var boundary = self.centerZoom(data);
-        var subunits = self.drawDistricts(data);
-        self.colorSubunits(subunits);
+        var districts = self.drawDistricts(data);
         self.drawOuterBoundary(data, boundary);
-        self.getDistrictInfo(state);
+        self.getDistrictInfo(state).then(data => {
+          self.colorDistricts(districts,data);
+          var sort: Sort = {
+            active: "confirmed",
+            direction: "desc"
+          };
+    
+          self.sortData(sort);
+        });
+
+
+
+
       }).catch(err => {
         console.log(err);
       })
@@ -280,7 +291,10 @@ export class GeographicChartComponent implements OnInit {
       .enter().append("path")
       .attr("class", "subunit")
       .attr("d", this.path)
+      .on("mouseover", this.mouseOverEvent())
+      .on("mouseout", this.mouseOutEvent())
       .on("click", this.mouseOutEvent());
+
     d3.select(".svgcontent")
       .classed("svgcontent-width", true);
 
@@ -289,23 +303,70 @@ export class GeographicChartComponent implements OnInit {
   }
 
 
-  getDistrictInfo(state) {
-    if (this.selectedStateInfo) {
-      this.selectedStateInfo = null;
-    } else {
-      this.selectedStateInfo = this.stateInfoDistrictInfo.filter((data) => {
-        var stateFromData = data.state.toLowerCase().replace(/\s/g, '')
-        return stateFromData == state;
-      })[0];
+  colorDistricts(district,stateInfo ){
+    var self = this;
+    // d3.scaleOrdinal( d3.schemeCategory10);
 
+    var c =
+      ["#091D83", "#0C2FE7", "#5F76F0", "#99AAF8", "#BAC5F8"];
+    district
+      .style("fill", function (d, i) {
+
+        let color = getColor(d);
+        return c[color];
+
+      })
+      .style("opacity", "1");
+
+
+    function getColor(d) {
+      let color;
+
+      for (let districtInfo of stateInfo.districtData) {
+
+        console.log(`${districtInfo.district} and ${d.properties.district}`);
+        if (districtInfo.district == d.properties.district) {
+          let confirmedCases = parseInt(districtInfo.confirmed);
+          if (confirmedCases > 2000) {
+            color = "0";
+          } else if (confirmedCases < 2000 && confirmedCases > 1000) {
+            color = "1";
+          } else if (confirmedCases < 1000 && confirmedCases > 500) {
+            color = "2";
+          } else if (confirmedCases < 500 && confirmedCases > 100) {
+            color = "3";
+          } else {
+            color = "4";
+          }
+
+        }
+      }
+      return color;
 
     }
-    var sort: Sort = {
-      active: "confirmed",
-      direction: "desc"
-    };
+  }
 
-    this.sortData(sort);
+
+
+  getDistrictInfo(state) {
+    var self = this;
+    return new Promise((resolve) => {
+      var newlySelectedStateInfo =
+        self.stateInfoDistrictInfo.filter((data) => {
+          var stateFromData = data.state.toLowerCase().replace(/\s/g, '')
+          return stateFromData == state;
+        })[0];
+
+      if (newlySelectedStateInfo == self.selectedStateInfo) {
+        self.selectedStateInfo = null;
+      } else {
+        self.selectedStateInfo = newlySelectedStateInfo;
+      }
+
+   
+      resolve(newlySelectedStateInfo);
+    });
+
 
   }
 
