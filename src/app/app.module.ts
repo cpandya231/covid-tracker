@@ -40,11 +40,13 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import { RemovewhitespacesPipe } from './removewhitespaces.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GeographicChartComponent
+    GeographicChartComponent,
+    RemovewhitespacesPipe
   ],
   imports: [
     BrowserModule,
@@ -86,6 +88,7 @@ import {MatTreeModule} from '@angular/material/tree';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    
     
   ],
   providers: [],

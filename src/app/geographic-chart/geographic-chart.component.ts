@@ -16,7 +16,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0px' })),
       state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+      transition('* => collapsed', animate('300ms ease-out')),
+      transition('* => expanded', animate('600ms ease-in'))
+      // transition('collapsed => expanded', animate('700ms ease-in-out')),
+      // transition('expanded => collapsed', animate('700ms ease'))
     ]),
   ],
 
@@ -25,7 +28,7 @@ export class GeographicChartComponent implements OnInit {
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  geoJson: any;
+  
   width = 491;
   height = 491;
   stateInfo: StateInfo[];
@@ -141,11 +144,12 @@ export class GeographicChartComponent implements OnInit {
   private mouseOverEvent(): any {
     var self = this;
     return function (d) {
-      console.log(`mouse over ${d.properties.district}`)
+      
       d3.select(this)
         .classed("active", true);
-
-
+      var place=d.properties.district==undefined?d.properties.st_nm:d.properties.district;
+      console.log(`mouse over ${place.toLowerCase().replace(/\s/g, '')}`)
+      d3.select(`#${place.toLowerCase().replace(/\s/g, '')}`).style("background-color","#BAC5F8");
 
     };
   }
@@ -185,7 +189,9 @@ export class GeographicChartComponent implements OnInit {
       self.tooltip.transition()
         .duration(500);
       self.tooltip.style("opacity", 0);
-
+      var place=d.properties.st_nm==undefined?d.properties.district:d.properties.st_nm;
+     
+      d3.select(`#${place.toLowerCase().replace(/\s/g, '')}`).style("background-color","inherit");
 
     };
   }
@@ -407,7 +413,9 @@ export class GeographicChartComponent implements OnInit {
     }
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-
+  expandOrCollapse(element){
+    return this.selectedStateInfo.state == element.state ?'expanded':'collapsed';
+  }
 
 
 
