@@ -141,9 +141,10 @@ export class GeographicChartComponent implements OnInit {
   private mouseOverEvent(): any {
     var self = this;
     return function (d) {
-
+      console.log(`mouse over ${d.properties.district}`)
       d3.select(this)
         .classed("active", true);
+
 
 
     };
@@ -257,12 +258,12 @@ export class GeographicChartComponent implements OnInit {
         var districts = self.drawDistricts(data);
         self.drawOuterBoundary(data, boundary);
         self.getDistrictInfo(state).then(data => {
-          self.colorDistricts(districts,data);
+          self.colorDistricts(districts, data);
           var sort: Sort = {
             active: "confirmed",
             direction: "desc"
           };
-    
+
           self.sortData(sort);
         });
 
@@ -303,12 +304,12 @@ export class GeographicChartComponent implements OnInit {
   }
 
 
-  colorDistricts(district,stateInfo ){
+  colorDistricts(district, stateInfo) {
     var self = this;
     // d3.scaleOrdinal( d3.schemeCategory10);
 
     var c =
-      ["#091D83", "#0C2FE7", "#5F76F0", "#99AAF8", "#BAC5F8"];
+      ["#091D83", "#0C2FE7", "#5F76F0", "#99AAF8", "#BAC5F8","#f2f3f7"];
     district
       .style("fill", function (d, i) {
 
@@ -324,8 +325,9 @@ export class GeographicChartComponent implements OnInit {
 
       for (let districtInfo of stateInfo.districtData) {
 
-        console.log(`${districtInfo.district} and ${d.properties.district}`);
-        if (districtInfo.district == d.properties.district) {
+
+        if (districtInfo.district.toLowerCase().replace(/\s/g, '')
+          == d.properties.district.toLowerCase().replace(/\s/g, '')) {
           let confirmedCases = parseInt(districtInfo.confirmed);
           if (confirmedCases > 2000) {
             color = "0";
@@ -340,6 +342,11 @@ export class GeographicChartComponent implements OnInit {
           }
 
         }
+      }
+
+      console.log(`${d.properties.district.toLowerCase()} color ${color}`)
+      if (color == undefined) {
+        color = "5";
       }
       return color;
 
@@ -363,7 +370,7 @@ export class GeographicChartComponent implements OnInit {
         self.selectedStateInfo = newlySelectedStateInfo;
       }
 
-   
+
       resolve(newlySelectedStateInfo);
     });
 
@@ -371,23 +378,26 @@ export class GeographicChartComponent implements OnInit {
   }
 
   sortData(sort: Sort) {
-    const data = this.selectedStateInfo.districtData.slice();
-    if (!sort.active || sort.direction === '') {
-      this.sortedDistricts = data;
-      return;
-    }
-
-    this.sortedDistricts = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'district': return this.compare(a.district, b.district, isAsc, false);
-        case 'confirmed': return this.compare(a.confirmed, b.confirmed, isAsc, true);
-        case 'active': return this.compare(a.active, b.active, isAsc, true);
-        case 'recovered': return this.compare(a.recovered, b.recovered, isAsc, true);
-        case 'death': return this.compare(a.deceased, b.deceased, isAsc, true);
-        default: return 0;
+    if (this.selectedStateInfo) {
+      const data = this.selectedStateInfo.districtData.slice();
+      if (!sort.active || sort.direction === '') {
+        this.sortedDistricts = data;
+        return;
       }
-    });
+
+      this.sortedDistricts = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'district': return this.compare(a.district, b.district, isAsc, false);
+          case 'confirmed': return this.compare(a.confirmed, b.confirmed, isAsc, true);
+          case 'active': return this.compare(a.active, b.active, isAsc, true);
+          case 'recovered': return this.compare(a.recovered, b.recovered, isAsc, true);
+          case 'death': return this.compare(a.deceased, b.deceased, isAsc, true);
+          default: return 0;
+        }
+      });
+
+    }
 
 
   }

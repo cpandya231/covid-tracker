@@ -5259,7 +5259,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "507",
-                        "district": "Gondiya",
+                        "district": "Gondia",
                         "st_nm": "Maharashtra",
                         "st_code": "27",
                         "year": "2011_c"
@@ -5311,7 +5311,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "500",
-                        "district": "Buldana",
+                        "district": "Buldhana",
                         "st_nm": "Maharashtra",
                         "st_code": "27",
                         "year": "2011_c"
@@ -5415,7 +5415,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "522",
-                        "district": "Ahmadnagar",
+                        "district": "Ahmednagar",
                         "st_nm": "Maharashtra",
                         "st_code": "27",
                         "year": "2011_c"
@@ -5480,7 +5480,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "523",
-                        "district": "Bid",
+                        "district": "Beed",
                         "st_nm": "Maharashtra",
                         "st_code": "27",
                         "year": "2011_c"
@@ -5706,7 +5706,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "520",
-                        "district": "Raigarh",
+                        "district": "Raigad",
                         "st_nm": "Maharashtra",
                         "st_code": "27",
                         "year": "2011_c"
@@ -5719,7 +5719,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "518",
-                        "district": "Mumbai Suburban",
+                        "district": "Mumbai",
                         "st_nm": "Maharashtra",
                         "st_code": "27",
                         "year": "2011_c"

@@ -67,7 +67,7 @@
                     "type": "MultiPolygon",
                     "properties": {
                         "dt_code": "489",
-                        "district": "The Dangs",
+                        "district": "Dang",
                         "st_nm": "Gujarat",
                         "st_code": "24",
                         "year": "2011_c"
@@ -171,7 +171,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "731",
-                        "district": "Chota Udaipur",
+                        "district": "Chhota Udaipur",
                         "st_nm": "Gujarat",
                         "st_code": "24",
                         "year": "update2014"
@@ -337,7 +337,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "471",
-                        "district": "Mahesana",
+                        "district": "Mehsana",
                         "st_nm": "Gujarat",
                         "st_code": "24",
                         "year": "2011_c"
@@ -376,7 +376,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "484",
-                        "district": "Panch Mahals",
+                        "district": "Panchmahal",
                         "st_nm": "Gujarat",
                         "st_code": "24",
                         "year": "2011_c"
@@ -389,7 +389,7 @@
                     "type": "Polygon",
                     "properties": {
                         "dt_code": "485",
-                        "district": "Dohad",
+                        "district": "Dahod",
                         "st_nm": "Gujarat",
                         "st_code": "24",
                         "year": "2011_c"

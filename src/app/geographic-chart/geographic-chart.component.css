@@ -55,6 +55,8 @@ svg {
 
  ::ng-deep.subunit.active {
     cursor: pointer;
+    stroke: whitesmoke;
+    stroke-width: 5px;
 }
 
  ::ng-deep.subunit-label {
