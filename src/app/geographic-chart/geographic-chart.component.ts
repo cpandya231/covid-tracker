@@ -148,7 +148,7 @@ export class GeographicChartComponent implements OnInit {
       d3.select(this)
         .classed("active", true);
       var place=d.properties.district==undefined?d.properties.st_nm:d.properties.district;
-      console.log(`mouse over ${place.toLowerCase().replace(/\s/g, '')}`)
+      
       d3.select(`#${place.toLowerCase().replace(/\s/g, '')}`).style("background-color","#BAC5F8");
 
     };
