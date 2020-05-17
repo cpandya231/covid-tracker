@@ -11,7 +11,6 @@ h2 {
 
 #state-data {
     border-collapse: collapse;
-    border-top: 2px solid #707070;
     width: 100%;
 }
 
@@ -19,10 +18,11 @@ th {
     padding: 0.6em 0em;
     font-size: 0.9rem;
     text-align: left;
+    border-bottom: 1px solid #BAC5F8;
 }
 
 td {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #BAC5F8;
     padding: 0.6em 0em;
     font-size: 0.9rem;
 }
@@ -192,7 +192,7 @@ mat-form-field {
     .svgcontent {
         width: 45%;
         height: 50%;
-        margin-top: 5em;
+        margin-top: 3em;
         animation: fadeIn 5s forwards;
     }
      ::ng-deep#content {
@@ -210,7 +210,7 @@ mat-form-field {
         overflow-y: scroll;
         overflow-x: hidden;
         width: 30em;
-        height: 46.5em;
+        height: 39em;
     }
     .colors {
         width: 80%;
