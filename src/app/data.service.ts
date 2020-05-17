@@ -9,6 +9,7 @@ import { StateInfo } from './StateInfo';
 export class DataService {
 
   stateInfoUrl = "https://api.covid19india.org/data.json";
+  stateDistrictInfoUrl="https://api.covid19india.org/v2/state_district_wise.json";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -16,6 +17,9 @@ export class DataService {
     return this.httpClient.get<any>(`${this.stateInfoUrl}`);
   }
 
+  getStateDistrictInfo():any{
+    return this.httpClient.get<any>(`${this.stateDistrictInfoUrl}`);
+  }
 
 
 }

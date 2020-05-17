@@ -4,6 +4,7 @@
         <div class="container">
             <div class="svgcontent">
                 <svg></svg>
+
                 <!-- <span id="confirmed-cases">Confirmed Cases</span> -->
                 <div class="colors">
 
@@ -13,22 +14,22 @@
                     </div>
 
                     <div class="colordata">
-                        <span>500  </span>
+                        <span>{{numberOfCases[3] |number}} </span>
                         <div class="color2 colordim"></div>
                     </div>
 
                     <div class="colordata">
-                        <span>1,000</span>
+                        <span>{{numberOfCases[2] |number}}</span>
                         <div class="color3 colordim"></div>
                     </div>
 
                     <div class="colordata">
-                        <span>2,000</span>
+                        <span>{{numberOfCases[1] |number}}</span>
                         <div class="color4 colordim"></div>
                     </div>
 
                     <div class="colordata">
-                        <span>4,000</span>
+                        <span>{{numberOfCases[0] |number}}</span>
                         <div class="color5 colordim"></div>
                     </div>
 
@@ -36,37 +37,79 @@
             </div>
             <div class="table-wrapper">
                 <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
+                    <mat-form-field>
+                        <!-- <mat-label>Filter</mat-label> -->
+                        <input matInput (keyup)="applyFilter($event)" placeholder="State Name">
+                    </mat-form-field>
+
+                    <table mat-table [dataSource]="stateInfoDatasource" multiTemplateDataRows matSort class="state-info" id="state-data">
+                        <ng-container matColumnDef="state">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> State </th>
+                            <td mat-cell *matCellDef="let element"> {{element.state }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="confirmed">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="confirmed"> Conf </th>
+                            <td mat-cell *matCellDef="let element"> {{element.confirmed |number}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="active">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="active"> Act </th>
+                            <td mat-cell *matCellDef="let element"> {{element.active |number}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="recovered">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="recovered"> Rec </th>
+                            <td mat-cell *matCellDef="let element"> {{element.recovered |number}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="deaths">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="death"> Death </th>
+                            <td mat-cell *matCellDef="let element"> {{element.deaths |number}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length" class="district-info">
+
+                                <div *ngIf="selectedStateInfo" class="example-element-detail" [@detailExpand]="expandOrCollapse(element)">
+                                    <table mat-table [dataSource]="sortedDistricts" multiTemplateDataRows matSort (matSortChange)="sortData($event)">
+                                        <ng-container matColumnDef="district">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> District </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.district }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="confirmed">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="confirmed"> Conf </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.confirmed |number}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="active">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="active"> Act </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.active |number}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="recovered">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="recovered"> Rec </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.recovered |number}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="deaths">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="death"> Death </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.deceased |number}} </td>
+                                        </ng-container>
 
 
-                                <th>State</th>
-                                <th class="confirmed"> Conf </th>
-                                <th class="active"> Act </th>
-                                <th class="recovered"> Rec </th>
-                                <th class="death"> Death </th>
+                                        <tr mat-header-row *matHeaderRowDef="displayedDistrictColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedDistrictColumns; let i = dataIndex;" [id]="row.district | removewhitespaces"></tr>
 
-                            </tr>
-                        </thead>
+                                    </table>
+                                </div>
+                            </td>
+                        </ng-container>
 
-                        <tbody>
-                            <tr>
-                                <td>{{stateInfo[0].state}}</td>
-                                <td>{{stateInfo[0].confirmed | number}}</td>
-                                <td>{{stateInfo[0].active | number}}</td>
-                                <td>{{stateInfo[0].recovered | number}}</td>
-                                <td>{{stateInfo[0].deaths | number}}</td>
-                            </tr>
-                            <tr *ngFor="let state of stateInfo | slice:1; let i = index" id="{{state.state}}">
-
-                                <td>{{state.state}}</td>
-                                <td>{{state.confirmed | number}}</td>
-                                <td>{{state.active | number}}</td>
-                                <td>{{state.recovered | number}}</td>
-                                <td>{{state.deaths | number}}</td>
-                            </tr>
-                        </tbody>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = dataIndex;" (click)="drawPlace(row.state,i)" [id]="row.state | removewhitespaces"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
                     </table>
 
                 </div>
