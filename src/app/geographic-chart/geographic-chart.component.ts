@@ -88,7 +88,7 @@ export class GeographicChartComponent implements OnInit {
   drawIndiaMap() {
     var self = this;
     self.clearSvg(self);
-    d3.json("../../assets/india.json").then(function (india) {
+    d3.json("assets/india.json").then(function (india) {
       self.numberOfCases=self.stateNumberOfCases;
       var boundary = self.centerZoom(india);
       var subunits = self.drawStates(india);
