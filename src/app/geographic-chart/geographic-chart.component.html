@@ -14,22 +14,22 @@
                     </div>
 
                     <div class="colordata">
-                        <span>500  </span>
+                        <span>{{numberOfCases[3] |number}} </span>
                         <div class="color2 colordim"></div>
                     </div>
 
                     <div class="colordata">
-                        <span>1,000</span>
+                        <span>{{numberOfCases[2] |number}}</span>
                         <div class="color3 colordim"></div>
                     </div>
 
                     <div class="colordata">
-                        <span>2,000</span>
+                        <span>{{numberOfCases[1] |number}}</span>
                         <div class="color4 colordim"></div>
                     </div>
 
                     <div class="colordata">
-                        <span>4,000</span>
+                        <span>{{numberOfCases[0] |number}}</span>
                         <div class="color5 colordim"></div>
                     </div>
 
@@ -37,6 +37,11 @@
             </div>
             <div class="table-wrapper">
                 <div class="table-container">
+                    <mat-form-field>
+                        <!-- <mat-label>Filter</mat-label> -->
+                        <input matInput (keyup)="applyFilter($event)" placeholder="State Name">
+                    </mat-form-field>
+
                     <table mat-table [dataSource]="stateInfoDatasource" multiTemplateDataRows matSort class="state-info" id="state-data">
                         <ng-container matColumnDef="state">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> State </th>

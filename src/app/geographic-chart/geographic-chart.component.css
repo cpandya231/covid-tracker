@@ -169,6 +169,12 @@ tr.example-detail-row:hover {
     width: 100%;
 }
 
+mat-form-field {
+    font-size: 14px;
+    width: 85%;
+    margin: auto 3em auto 1.6em;
+}
+
 @media(min-width:730px) {
     .colors {
         width: 80%;
@@ -186,6 +192,7 @@ tr.example-detail-row:hover {
     .svgcontent {
         width: 45%;
         height: 50%;
+        margin-top: 5em;
         animation: fadeIn 5s forwards;
     }
      ::ng-deep#content {
@@ -202,7 +209,8 @@ tr.example-detail-row:hover {
         height: 500px;
         overflow-y: scroll;
         overflow-x: hidden;
-        width: 352px;
+        width: 30em;
+        height: 46.5em;
     }
     .colors {
         width: 80%;
@@ -234,9 +242,6 @@ tr.example-detail-row:hover {
     .colordim {
         width: 4em;
         height: 1.2em;
-    }
-    #state-data {
-        height: 550px;
     }
 }
 

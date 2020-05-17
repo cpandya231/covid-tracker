@@ -39,6 +39,10 @@ export class GeographicChartComponent implements OnInit {
   sortedDistricts: DistrictInfo[];
   displayedColumns: string[] = ['state', 'confirmed', 'active', 'recovered', 'deaths'];
   displayedDistrictColumns: string[] = ['district', 'confirmed', 'active', 'recovered', 'deaths'];
+  stateNumberOfCases:number[]=[8000,6000,4000,500];
+  numberOfCases:number[]=this.stateNumberOfCases;
+  
+  districtNumberOfCases:number[]=[2000,1000,500,100];
   path: any;
   projection: any;
   group: any;
@@ -85,11 +89,13 @@ export class GeographicChartComponent implements OnInit {
     var self = this;
     self.clearSvg(self);
     d3.json("../../assets/india.json").then(function (india) {
+      self.numberOfCases=self.stateNumberOfCases;
       var boundary = self.centerZoom(india);
       var subunits = self.drawStates(india);
       self.colorSubunits(subunits);
       // self.drawSubUnitLabels(india);
       self.drawOuterBoundary(india, boundary);
+      
     }).catch(err => {
       console.log(err);
     });
@@ -220,13 +226,13 @@ export class GeographicChartComponent implements OnInit {
         let stateInfo = self.stateInfo[i];
         if (stateInfo.state == d.properties.st_nm) {
           let confirmedCases = parseInt(stateInfo.confirmed);
-          if (confirmedCases > 4000) {
+          if (confirmedCases > self.numberOfCases[0]) {
             color = "0";
-          } else if (confirmedCases < 4000 && confirmedCases > 2000) {
+          } else if (confirmedCases < self.numberOfCases[0] && confirmedCases > self.numberOfCases[1]) {
             color = "1";
-          } else if (confirmedCases < 2000 && confirmedCases > 1000) {
+          } else if (confirmedCases < self.numberOfCases[1] && confirmedCases > self.numberOfCases[2]) {
             color = "2";
-          } else if (confirmedCases < 1000 && confirmedCases > 500) {
+          } else if (confirmedCases < self.numberOfCases[2] && confirmedCases > self.numberOfCases[3]) {
             color = "3";
           } else {
             color = "4";
@@ -259,7 +265,7 @@ export class GeographicChartComponent implements OnInit {
       this.expandedIndex = index;
       this.clearSvg(self);
       d3.json(`assets/${state}.json`).then(function (data) {
-
+        self.numberOfCases=self.districtNumberOfCases;
         var boundary = self.centerZoom(data);
         var districts = self.drawDistricts(data);
         self.drawOuterBoundary(data, boundary);
@@ -274,7 +280,7 @@ export class GeographicChartComponent implements OnInit {
         });
 
 
-
+        
 
       }).catch(err => {
         console.log(err);
@@ -335,13 +341,13 @@ export class GeographicChartComponent implements OnInit {
         if (districtInfo.district.toLowerCase().replace(/\s/g, '')
           == d.properties.district.toLowerCase().replace(/\s/g, '')) {
           let confirmedCases = parseInt(districtInfo.confirmed);
-          if (confirmedCases > 2000) {
+          if (confirmedCases > self.numberOfCases[0]) {
             color = "0";
-          } else if (confirmedCases < 2000 && confirmedCases > 1000) {
+          } else if (confirmedCases < self.numberOfCases[0] && confirmedCases > self.numberOfCases[1]) {
             color = "1";
-          } else if (confirmedCases < 1000 && confirmedCases > 500) {
+          } else if (confirmedCases < self.numberOfCases[1] && confirmedCases > self.numberOfCases[2]) {
             color = "2";
-          } else if (confirmedCases < 500 && confirmedCases > 100) {
+          } else if (confirmedCases < self.numberOfCases[2] && confirmedCases > self.numberOfCases[3]) {
             color = "3";
           } else {
             color = "4";
@@ -417,9 +423,10 @@ export class GeographicChartComponent implements OnInit {
     return this.selectedStateInfo.state == element.state ?'expanded':'collapsed';
   }
 
-
-
-
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.stateInfoDatasource.filter = filterValue.trim().toLowerCase();
+  }
 
 
 }
