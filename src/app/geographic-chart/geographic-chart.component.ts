@@ -39,6 +39,11 @@ export class GeographicChartComponent implements OnInit {
   sortedDistricts: DistrictInfo[];
   displayedColumns: string[] = ['state', 'confirmed', 'active', 'recovered', 'deaths'];
   displayedDistrictColumns: string[] = ['district', 'confirmed', 'active', 'recovered', 'deaths'];
+  colorCodes =
+  // ["#112d4e", "#3f72af", "#dbe2ef", "#f9f7f7", "#dbe2ef"];
+  ["#461220", "#8c2f39", "#b23a48", "#fcb9b2", "#fed0bb"];
+  
+
   stateNumberOfCases: number[] = [8000, 6000, 4000, 500];
   numberOfCases: number[] = this.stateNumberOfCases;
 
@@ -199,13 +204,12 @@ export class GeographicChartComponent implements OnInit {
     var self = this;
     // d3.scaleOrdinal( d3.schemeCategory10);
 
-    var c =
-      ["#091D83", "#0C2FE7", "#5F76F0", "#99AAF8", "#BAC5F8"];
+   
     subunits
       .style("fill", function (d, i) {
 
         let color = getColor(d);
-        return c[color];
+        return self.colorCodes[color];
 
       })
       .style("opacity", "1");
@@ -323,13 +327,11 @@ export class GeographicChartComponent implements OnInit {
     var self = this;
     // d3.scaleOrdinal( d3.schemeCategory10);
 
-    var c =
-      ["#091D83", "#0C2FE7", "#5F76F0", "#99AAF8", "#BAC5F8", "#f2f3f7"];
     district
       .style("fill", function (d, i) {
 
         let color = getColor(d);
-        return c[color];
+        return self.colorCodes[color];
 
       })
       .style("opacity", "1");
@@ -380,6 +382,7 @@ export class GeographicChartComponent implements OnInit {
 
       if (newlySelectedStateInfo == self.selectedStateInfo) {
         self.selectedStateInfo = null;
+        self.drawIndiaMap();
 
       } else {
         self.selectedStateInfo = newlySelectedStateInfo;

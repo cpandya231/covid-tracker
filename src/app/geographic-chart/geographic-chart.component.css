@@ -3,14 +3,14 @@
 }
 
 h1 {
-    color: #0C2FE7;
+    color: #8c2f39;
     padding: 0.5em 1em 0.5em;
     margin-bottom: 0em;
     text-align: center;
+    font-weight: bold;
 }
 
 h3 {
-    font-weight: 600;
     font-size: 1.2rem;
     margin: 1.2em;
     width: 10rem;
@@ -25,11 +25,9 @@ th {
     padding: 0.6em 0em;
     font-size: 0.9rem;
     text-align: left;
-    border-bottom: 1px solid #BAC5F8;
 }
 
 td {
-    border-bottom: 1px solid #BAC5F8;
     padding: 0.6em 0em;
     font-size: 0.9rem;
 }
@@ -103,23 +101,23 @@ svg {
 }
 
 .color1 {
-    background-color: #BAC5F8;
+    background-color: #fed0bb;
 }
 
 .color2 {
-    background-color: #99AAF8;
+    background-color: #fcb9b2;
 }
 
 .color3 {
-    background-color: #5F76F0;
+    background-color: #b23a48;
 }
 
 .color4 {
-    background-color: #0C2FE7;
+    background-color: #8c2f39;
 }
 
 .color5 {
-    background-color: #091D83;
+    background-color: #461220;
 }
 
  ::ng-deep #confirmed-cases {
@@ -163,9 +161,8 @@ svg {
     color: gray;
 }
 
-.example-element-detail {
+.expandedTable {
     overflow: hidden;
-    display: flex;
 }
 
 tr.example-detail-row {
@@ -176,7 +173,7 @@ tr.example-detail-row:hover {
     background-color: white;
 }
 
-.example-element-detail table {
+.expandedTable table {
     width: 100%;
 }
 

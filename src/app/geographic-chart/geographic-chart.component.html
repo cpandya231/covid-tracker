@@ -73,7 +73,7 @@
                         <ng-container matColumnDef="expandedDetail">
                             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length" class="district-info">
 
-                                <div *ngIf="selectedStateInfo" class="example-element-detail" [@detailExpand]="expandOrCollapse(element)">
+                                <div *ngIf="selectedStateInfo" class="expandedTable" [@detailExpand]="expandOrCollapse(element)">
                                     <table mat-table [dataSource]="sortedDistricts" multiTemplateDataRows matSort (matSortChange)="sortData($event)">
                                         <ng-container matColumnDef="district">
                                             <th mat-header-cell *matHeaderCellDef mat-sort-header> District </th>
@@ -101,7 +101,7 @@
                                         </ng-container>
 
 
-                                        <tr mat-header-row *matHeaderRowDef="displayedDistrictColumns"></tr>
+                                        <tr mat-header-row *matHeaderRowDef="displayedDistrictColumns sticky: true"></tr>
                                         <tr mat-row *matRowDef="let row; columns: displayedDistrictColumns; let i = dataIndex;" [id]="row.district | removewhitespaces"></tr>
 
                                     </table>
@@ -109,7 +109,7 @@
                             </td>
                         </ng-container>
 
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns" id="table-header"></tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true" id="table-header"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = dataIndex;" (click)="drawPlace(row.state,i)" [id]="row.state | removewhitespaces" [class]="selectedStateInfo && selectedStateInfo.state==row.state?'highlight':''"></tr>
                         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
                     </table>
