@@ -2,11 +2,18 @@
     height: 100%;
 }
 
-h2 {
+h1 {
     color: #0C2FE7;
     padding: 0.5em 1em 0.5em;
     margin-bottom: 0em;
     text-align: center;
+}
+
+h3 {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin: 1.2em;
+    width: 10rem;
 }
 
 #state-data {
@@ -25,6 +32,10 @@ td {
     border-bottom: 1px solid #BAC5F8;
     padding: 0.6em 0em;
     font-size: 0.9rem;
+}
+
+.highlight {
+    font-weight: bold;
 }
 
 .state-info tr:hover {
@@ -186,13 +197,17 @@ mat-form-field {
 }
 
 @media(min-width:1024px) {
+    h3 {
+        margin: 0em;
+        width: 10rem;
+    }
      ::ng-deep.parent {
         overflow: hidden;
     }
     .svgcontent {
         width: 45%;
         height: 50%;
-        margin-top: 3em;
+        margin-top: 1em;
         animation: fadeIn 5s forwards;
     }
      ::ng-deep#content {

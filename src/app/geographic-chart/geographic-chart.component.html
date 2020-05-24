@@ -1,8 +1,10 @@
 <div class="parent">
     <div id="content">
-        <h2>Covid-19 India </h2>
+        <h1>Covid-19 India </h1>
         <div class="container">
+
             <div class="svgcontent">
+                <h3 id="place-header">{{placeLabel}}</h3>
                 <svg></svg>
 
                 <!-- <span id="confirmed-cases">Confirmed Cases</span> -->
@@ -107,8 +109,8 @@
                             </td>
                         </ng-container>
 
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = dataIndex;" (click)="drawPlace(row.state,i)" [id]="row.state | removewhitespaces"></tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns" id="table-header"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = dataIndex;" (click)="drawPlace(row.state,i)" [id]="row.state | removewhitespaces" [class]="selectedStateInfo && selectedStateInfo.state==row.state?'highlight':''"></tr>
                         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
                     </table>
 
