@@ -41,12 +41,14 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import { RemovewhitespacesPipe } from './removewhitespaces.pipe';
+import { ColorChartComponent } from './color-chart/color-chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GeographicChartComponent,
-    RemovewhitespacesPipe
+    RemovewhitespacesPipe,
+    ColorChartComponent
   ],
   imports: [
     BrowserModule,
