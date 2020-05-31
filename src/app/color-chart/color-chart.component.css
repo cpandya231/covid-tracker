@@ -11,6 +11,10 @@
     pointer-events: all;
 }
 
+::ng-deep#wrapper {
+    margin-top: 5em;
+}
+
 
 /* Style the dots by assigning a fill and stroke */
 

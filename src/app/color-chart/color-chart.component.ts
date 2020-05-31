@@ -7,39 +7,33 @@ import * as d3 from 'd3';
 })
 export class ColorChartComponent implements OnInit {
 
-  inputArray: number[] = [0, 1000, 2000, 3000, 4000];
+
   constructor() { }
 
   ngOnInit(): void {
     var self = this;
+    let tempArray = [100, 23, 500, 4000, 1000, 20000];
     let margin = { top: 50, right: 50, bottom: 50, left: 50 }
-      , width = window.innerWidth - margin.left - margin.right // Use the window's width 
-      , height = window.innerHeight - margin.top - margin.bottom;
-
-    let n = 6;
-
-    let xScale = d3.scaleLinear()
-      .domain([0, 4000])
-      .range([0, width / 4]);
+      , width = 430 // Use the window's width 
+      , height = 20;
 
 
-    let yScale = d3.scaleLinear()
-      .domain([0, 5])
-      .range([height, 0]);
 
-    let line: any = d3.line()
-      .x(function (d, i) {
-        return xScale(self.inputArray[i]);
-      })
-      .y(function (d: any) {
-        return yScale(0.1);
-      })
-      .curve(d3.curveMonotoneX);
+    var linearScale = d3.scaleLinear()
+      .domain([d3.min(tempArray), d3.max(tempArray)])
+      .range([0, 400]);
 
-    let dataset = d3.range(n).map(function (d) { return { "y": 0.1 } });
+    var quantizeScale = d3.scaleQuantize<string>()
+      .domain([d3.min(tempArray), d3.max(tempArray)])
+      .range(["#461220", "#8c2f39", "#b23a48", "#fcb9b2", "#fed0bb"].reverse());
 
-    var svg = d3.select("svg")
-      .attr("width", width + margin.left + margin.right)
+    var myData = d3.range(d3.min(tempArray), d3.max(tempArray), 200);
+
+
+
+
+    var svg = d3.select("#scale")
+      .attr("width", width)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -47,27 +41,27 @@ export class ColorChartComponent implements OnInit {
     svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(xScale)
+      .call(d3.axisBottom(linearScale)
         .tickSizeOuter(0)
-        .tickSizeInner(0)); // Create an axis component with d3.axisBottom
-    // Create an axis component with d3.axisLeft
+        .tickSizeInner(0)); //
 
-    svg.append("path")
-      .datum(dataset) // 10. Binds data to the line 
-      .attr("class", "line") // Assign a class for styling 
-      .attr("d", line); // 11. Calls the line generator 
-    // 12. Appends a circle for each datapoint 
-    svg.selectAll(".dot")
-      .data(dataset)
-      .enter().append("circle") // Uses the enter().append() method
-      .attr("class", "dot") // Assign a class for styling
-      .attr("cx", function (d, i) { return xScale(self.inputArray[i]) })
-      .attr("cy", function (d) { return yScale(d.y) })
-      .attr("r", 5);
+    svg.selectAll('rect')
+      .data(myData)
+      .enter()
+      .append("g")
+      .append('rect')
+      .attr('x', function (d) {
+        return linearScale(d);
+      })
+      .attr("transform", "translate(0," + 0 + ")")
+      .attr('width', 5)
+      .attr('height', 20)
+      .style('fill', function (d) {
+        return quantizeScale(d);
+      })
+
 
   }
-  getRange(): any[] {
-    return ['yellow', 'red']
-  }
+
 
 }
