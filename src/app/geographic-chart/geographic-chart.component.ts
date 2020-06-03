@@ -40,9 +40,10 @@ export class GeographicChartComponent implements OnInit {
   displayedColumns: string[] = ['state', 'confirmed', 'active', 'recovered', 'deaths'];
   displayedDistrictColumns: string[] = ['district', 'confirmed', 'active', 'recovered', 'deaths'];
   colorCodes =
-  // ["#112d4e", "#3f72af", "#dbe2ef", "#f9f7f7", "#dbe2ef"];
-  ["#461220", "#8c2f39", "#b23a48", "#fcb9b2", "#fed0bb"];
-  
+
+    ["#091D83", "#0C2FE7", "#5F76F0", "#99AAF8", "#BAC5F8"];
+  // ["#461220", "#8c2f39", "#b23a48", "#fcb9b2", "#fed0bb"];
+
 
   stateNumberOfCases: number[] = [8000, 6000, 4000, 500];
   numberOfCases: number[] = this.stateNumberOfCases;
@@ -84,8 +85,8 @@ export class GeographicChartComponent implements OnInit {
     })
   }
 
-  onMouseOutfromStateMap(){
-    if(this.selectedStateInfo !=null){
+  onMouseOutfromStateMap() {
+    if (this.selectedStateInfo != null) {
       this.drawIndiaMap()
     }
   }
@@ -163,7 +164,7 @@ export class GeographicChartComponent implements OnInit {
         .classed("active", true);
       var place = d.properties.district == undefined ? d.properties.st_nm : d.properties.district;
 
-      d3.select(`#${place.toLowerCase().replace(/\s/g, '')}`).style("background-color", "#BAC5F8");
+
 
     };
   }
@@ -188,7 +189,7 @@ export class GeographicChartComponent implements OnInit {
   private mouseOutEvent(): any {
     var self = this;
     return function (d) {
-      
+
       d3.select(this)
         .classed("active", false);
 
@@ -204,7 +205,7 @@ export class GeographicChartComponent implements OnInit {
     var self = this;
     // d3.scaleOrdinal( d3.schemeCategory10);
 
-   
+
     subunits
       .style("fill", function (d, i) {
 
@@ -257,8 +258,8 @@ export class GeographicChartComponent implements OnInit {
 
     if (state === "Total") {
       self.drawIndiaMap();
-      
-      
+
+
     } else {
       this.placeLabel = state.charAt(0).toUpperCase() + state.slice(1);
       state = state.toLowerCase().replace(/\s/g, '');
