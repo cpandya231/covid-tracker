@@ -25,9 +25,11 @@ th {
     padding: 0.6em 0em;
     font-size: 0.9rem;
     text-align: left;
+    border-bottom: 1px solid #BAC5F8;
 }
 
 td {
+
     padding: 0.6em 0em;
     font-size: 0.9rem;
 }
@@ -209,7 +211,9 @@ mat-form-field {
     .svgcontent {
         width: 45%;
         height: 50%;
+
         margin-top: 1em;
+
         animation: fadeIn 5s forwards;
     }
      ::ng-deep#content {
