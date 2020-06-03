@@ -1,0 +1,29 @@
+/* Style the lines by removing the fill and applying a stroke */
+
+::ng-deep.line {
+    fill: none;
+    stroke: #ffab00;
+    stroke-width: 3;
+}
+
+::ng-deep.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+::ng-deep#wrapper {
+    margin-top: 5em;
+}
+
+
+/* Style the dots by assigning a fill and stroke */
+
+::ng-deep.dot {
+    fill: #ffab00;
+    stroke: #fff;
+}
+
+::ng-deep.focus circle {
+    fill: none;
+    stroke: steelblue;
+}

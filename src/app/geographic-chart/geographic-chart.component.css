@@ -2,11 +2,18 @@
     height: 100%;
 }
 
-h2 {
-    color: #0C2FE7;
+h1 {
+    color: #8c2f39;
     padding: 0.5em 1em 0.5em;
     margin-bottom: 0em;
     text-align: center;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin: 1.2em;
+    width: 10rem;
 }
 
 #state-data {
@@ -22,13 +29,20 @@ th {
 }
 
 td {
-    border-bottom: 1px solid #BAC5F8;
+
     padding: 0.6em 0em;
     font-size: 0.9rem;
 }
 
+.highlight {
+    font-weight: bold;
+}
+
 .state-info tr:hover {
-    background-color: #BAC5F8;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 .state-info tr:hover:first-child {
@@ -40,7 +54,9 @@ td {
 }
 
 .district-info tr:hover {
-    background-color: #BAC5F8;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
 svg {
@@ -152,9 +168,8 @@ svg {
     color: gray;
 }
 
-.example-element-detail {
+.expandedTable {
     overflow: hidden;
-    display: flex;
 }
 
 tr.example-detail-row {
@@ -165,7 +180,7 @@ tr.example-detail-row:hover {
     background-color: white;
 }
 
-.example-element-detail table {
+.expandedTable table {
     width: 100%;
 }
 
@@ -186,13 +201,19 @@ mat-form-field {
 }
 
 @media(min-width:1024px) {
+    h3 {
+        margin: 0em;
+        width: 10rem;
+    }
      ::ng-deep.parent {
         overflow: hidden;
     }
     .svgcontent {
         width: 45%;
         height: 50%;
-        margin-top: 3em;
+
+        margin-top: 1em;
+
         animation: fadeIn 5s forwards;
     }
      ::ng-deep#content {

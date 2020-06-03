@@ -28,7 +28,7 @@ export class GeographicChartComponent implements OnInit {
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  
+  placeLabel: string = "India";
   width = 491;
   height = 491;
   stateInfo: StateInfo[];
@@ -39,14 +39,20 @@ export class GeographicChartComponent implements OnInit {
   sortedDistricts: DistrictInfo[];
   displayedColumns: string[] = ['state', 'confirmed', 'active', 'recovered', 'deaths'];
   displayedDistrictColumns: string[] = ['district', 'confirmed', 'active', 'recovered', 'deaths'];
-  stateNumberOfCases:number[]=[8000,6000,4000,500];
-  numberOfCases:number[]=this.stateNumberOfCases;
-  
-  districtNumberOfCases:number[]=[2000,1000,500,100];
+  colorCodes =
+
+    ["#091D83", "#0C2FE7", "#5F76F0", "#99AAF8", "#BAC5F8"];
+  // ["#461220", "#8c2f39", "#b23a48", "#fcb9b2", "#fed0bb"];
+
+
+  stateNumberOfCases: number[] = [8000, 6000, 4000, 500];
+  numberOfCases: number[] = this.stateNumberOfCases;
+
+  districtNumberOfCases: number[] = [2000, 1000, 500, 100];
   path: any;
   projection: any;
   group: any;
-  tooltip: any;
+
 
   expandedIndex: any;
   diableExpansion: any = true;
@@ -72,11 +78,6 @@ export class GeographicChartComponent implements OnInit {
           .attr("preserveAspectRatio", "xMidYMid meet");
 
         self.group = svg.append("g");
-
-        this.tooltip = d3.select("#content")
-          .append("div")
-          .attr("class", "tooltip");
-
         this.drawIndiaMap();
 
       })
@@ -84,19 +85,29 @@ export class GeographicChartComponent implements OnInit {
     })
   }
 
+  onMouseOutfromStateMap() {
+    if (this.selectedStateInfo != null) {
+      this.drawIndiaMap()
+    }
+  }
 
   drawIndiaMap() {
     var self = this;
+    self.placeLabel = "India";
+    self.selectedStateInfo = null;
+    self.scrollToElementId("table-header");
     self.clearSvg(self);
 
     d3.json("assets/india.json").then(function (india) {
-      self.numberOfCases=self.stateNumberOfCases;
+
+      self.numberOfCases = self.stateNumberOfCases;
+
       var boundary = self.centerZoom(india);
       var subunits = self.drawStates(india);
       self.colorSubunits(subunits);
       // self.drawSubUnitLabels(india);
       self.drawOuterBoundary(india, boundary);
-      
+
     }).catch(err => {
       console.log(err);
     });
@@ -142,7 +153,6 @@ export class GeographicChartComponent implements OnInit {
     var self = this;
 
     return function (d) {
-      self.tooltip.style("opacity", 0);
       self.drawPlace(d.properties.st_nm, -1);
     }
   }
@@ -151,12 +161,12 @@ export class GeographicChartComponent implements OnInit {
   private mouseOverEvent(): any {
     var self = this;
     return function (d) {
-      
+
       d3.select(this)
         .classed("active", true);
-      var place=d.properties.district==undefined?d.properties.st_nm:d.properties.district;
-      
-      d3.select(`#${place.toLowerCase().replace(/\s/g, '')}`).style("background-color","#BAC5F8");
+      var place = d.properties.district == undefined ? d.properties.st_nm : d.properties.district;
+
+
 
     };
   }
@@ -171,16 +181,7 @@ export class GeographicChartComponent implements OnInit {
 
         d3.select(this)
           .classed("active", true);
-        self.tooltip.transition()
-          .duration(200).style("opacity", 1);
-        self.tooltip
-          .html(`<b>${d.properties.st_nm}</b>
-           <br> <span class="confirmed"> Confirmed:</span> ${stateInfo.confirmed}
-           <br> <span class="active"> Active:</span>  ${stateInfo.active}
-           <br> <span class="recovered"> Recovered: </span> ${stateInfo.recovered}
-           <br><span class="death">  Deaths: </span> ${stateInfo.deaths} `)
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
+
 
       })
 
@@ -193,12 +194,10 @@ export class GeographicChartComponent implements OnInit {
 
       d3.select(this)
         .classed("active", false);
-      self.tooltip.transition()
-        .duration(500);
-      self.tooltip.style("opacity", 0);
-      var place=d.properties.st_nm==undefined?d.properties.district:d.properties.st_nm;
-     
-      d3.select(`#${place.toLowerCase().replace(/\s/g, '')}`).style("background-color","inherit");
+
+      var place = d.properties.st_nm == undefined ? d.properties.district : d.properties.st_nm;
+
+      d3.select(`#${place.toLowerCase().replace(/\s/g, '')}`).style("background-color", "inherit");
 
     };
   }
@@ -208,13 +207,12 @@ export class GeographicChartComponent implements OnInit {
     var self = this;
     // d3.scaleOrdinal( d3.schemeCategory10);
 
-    var c =
-      ["#091D83", "#0C2FE7", "#5F76F0", "#99AAF8", "#BAC5F8"];
+
     subunits
       .style("fill", function (d, i) {
 
         let color = getColor(d);
-        return c[color];
+        return self.colorCodes[color];
 
       })
       .style("opacity", "1");
@@ -259,14 +257,20 @@ export class GeographicChartComponent implements OnInit {
   }
   drawPlace(state, index) {
     var self = this;
+
     if (state === "Total") {
       self.drawIndiaMap();
+
+
     } else {
+      this.placeLabel = state.charAt(0).toUpperCase() + state.slice(1);
       state = state.toLowerCase().replace(/\s/g, '');
+      this.scrollToElementId(state);
       this.expandedIndex = index;
       this.clearSvg(self);
+
       d3.json(`assets/${state}.json`).then(function (data) {
-        self.numberOfCases=self.districtNumberOfCases;
+        self.numberOfCases = self.districtNumberOfCases;
         var boundary = self.centerZoom(data);
         var districts = self.drawDistricts(data);
         self.drawOuterBoundary(data, boundary);
@@ -281,7 +285,7 @@ export class GeographicChartComponent implements OnInit {
         });
 
 
-        
+
 
       }).catch(err => {
         console.log(err);
@@ -289,6 +293,11 @@ export class GeographicChartComponent implements OnInit {
     }
 
 
+  }
+
+  private scrollToElementId(id: any) {
+    const matTable = document.getElementById(id);
+    matTable.scrollIntoView();
   }
 
   private clearSvg(self: this) {
@@ -321,13 +330,11 @@ export class GeographicChartComponent implements OnInit {
     var self = this;
     // d3.scaleOrdinal( d3.schemeCategory10);
 
-    var c =
-      ["#091D83", "#0C2FE7", "#5F76F0", "#99AAF8", "#BAC5F8","#f2f3f7"];
     district
       .style("fill", function (d, i) {
 
         let color = getColor(d);
-        return c[color];
+        return self.colorCodes[color];
 
       })
       .style("opacity", "1");
@@ -357,7 +364,6 @@ export class GeographicChartComponent implements OnInit {
         }
       }
 
-      console.log(`${d.properties.district.toLowerCase()} color ${color}`)
       if (color == undefined) {
         color = "5";
       }
@@ -379,8 +385,11 @@ export class GeographicChartComponent implements OnInit {
 
       if (newlySelectedStateInfo == self.selectedStateInfo) {
         self.selectedStateInfo = null;
+        self.drawIndiaMap();
+
       } else {
         self.selectedStateInfo = newlySelectedStateInfo;
+
       }
 
 
@@ -420,8 +429,8 @@ export class GeographicChartComponent implements OnInit {
     }
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-  expandOrCollapse(element){
-    return this.selectedStateInfo.state == element.state ?'expanded':'collapsed';
+  expandOrCollapse(element) {
+    return this.selectedStateInfo.state == element.state ? 'expanded' : 'collapsed';
   }
 
   applyFilter(event: Event) {
