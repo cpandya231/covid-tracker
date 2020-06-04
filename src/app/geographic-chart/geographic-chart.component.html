@@ -5,35 +5,19 @@
 
             <div class="svgcontent">
                 <h3 id="place-header">{{placeLabel}}</h3>
-                <svg></svg>
+                <svg id="geographical-map">
+                    </svg>
 
                 <!-- <span id="confirmed-cases">Confirmed Cases</span> -->
                 <div class="colors">
 
-                    <div class="colordata">
-                        <span>0</span>
-                        <div class="color1 colordim"></div>
-                    </div>
+                    <svg width="700" height="40">
+                        <g id="wrapper" >
+                        </g>
+                      
+                    </svg>
 
-                    <div class="colordata">
-                        <span>{{numberOfCases[3] |number}} </span>
-                        <div class="color2 colordim"></div>
-                    </div>
-
-                    <div class="colordata">
-                        <span>{{numberOfCases[2] |number}}</span>
-                        <div class="color3 colordim"></div>
-                    </div>
-
-                    <div class="colordata">
-                        <span>{{numberOfCases[1] |number}}</span>
-                        <div class="color4 colordim"></div>
-                    </div>
-
-                    <div class="colordata">
-                        <span>{{numberOfCases[0] |number}}</span>
-                        <div class="color5 colordim"></div>
-                    </div>
+                    <svg id="scale"></svg>
 
                 </div>
             </div>

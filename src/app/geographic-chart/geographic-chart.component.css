@@ -29,7 +29,6 @@ th {
 }
 
 td {
-
     padding: 0.6em 0em;
     font-size: 0.9rem;
 }
@@ -43,14 +42,12 @@ td {
     -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+    transform: scale(1.01);
 }
 
 .state-info tr:hover:first-child {
     background-color: inherit;
-}
-
-.district-info:hover {
-    background-color: white;
+    box-shadow: none;
 }
 
 .district-info tr:hover {
@@ -59,7 +56,7 @@ td {
     -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
-svg {
+#geographical-map {
     margin: 1em auto;
 }
 
@@ -96,10 +93,9 @@ svg {
 }
 
 .colors {
-    display: flex;
-    justify-content: center;
-    width: 60%;
-    margin: 1em 5.0em 3em;
+    width: 90%;
+    margin: auto 1em auto 1em;
+    padding: 1em;
 }
 
 .colordim {
@@ -190,6 +186,21 @@ mat-form-field {
     margin: auto 3em auto 1.6em;
 }
 
+::ng-deep.line {
+    fill: none;
+    stroke: #ffab00;
+    stroke-width: 3;
+}
+
+::ng-deep.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+::ng-deep#wrapper {
+    margin-top: 5em;
+}
+
 @media(min-width:730px) {
     .colors {
         width: 80%;
@@ -211,9 +222,7 @@ mat-form-field {
     .svgcontent {
         width: 45%;
         height: 50%;
-
         margin-top: 1em;
-
         animation: fadeIn 5s forwards;
     }
      ::ng-deep#content {

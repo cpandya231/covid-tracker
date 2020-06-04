@@ -83,6 +83,7 @@ export class GeographicChartComponent implements OnInit {
       })
 
     })
+    this.createColorScale();
   }
 
   onMouseOutfromStateMap() {
@@ -436,6 +437,62 @@ export class GeographicChartComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.stateInfoDatasource.filter = filterValue.trim().toLowerCase();
+  }
+
+  createColorScale(): void {
+    var self = this;
+    let tempArray = [100, 23, 500, 1000, 1000, 1000];
+    let margin = { top: 10, right: 10, bottom: 10, left: 10 }
+      , width = 330 // Use the window's width 
+      , height = 20;
+
+
+
+    var linearScale = d3.scaleLinear()
+      .domain([0, d3.max(tempArray)])
+      .range([0, 300]);
+
+    var quantizeScale = d3.scaleQuantize<string>()
+      .domain([0, d3.max(tempArray)])
+      .range(["#461220", "#8c2f39", "#b23a48", "#fcb9b2", "#fed0bb"].reverse());
+
+    var myData = d3.range(0, d3.max(tempArray), 50);
+
+
+
+
+    var svg = d3.select("#scale")
+      .attr("width", width)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("viewBox", `0 0 ${height} ${width}`);
+
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+
+      .call(d3.axisBottom(linearScale)
+        .tickSizeOuter(0)
+        .tickSizeInner(0)
+      );
+
+    svg.selectAll('rect')
+      .data(myData)
+      .enter()
+      .append("g")
+      .append('rect')
+      .attr('x', function (d) {
+        return linearScale(d);
+      })
+      .attr("transform", "translate(0," + 0 + ")")
+      .attr('width', 20)
+      .attr('height', 20)
+      .style('fill', function (d) {
+        return quantizeScale(d);
+      })
+
+
   }
 
 
